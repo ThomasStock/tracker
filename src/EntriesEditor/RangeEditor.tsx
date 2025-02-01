@@ -1,36 +1,24 @@
 import React from "react";
-import { useAtom } from "jotai";
-import { entriesAtom } from "../store/entriesAtom";
+import { type RangeValue } from "../store/entriesAtom";
+import type { RangeTemplate } from "../store/templateAtom";
 
 interface RangeEditorProps {
-  entryId: number;
-  date: string;
+  templateItem: RangeTemplate;
+  value: RangeValue;
+  setValue: (value: RangeValue) => void;
 }
 
-const RangeEditor: React.FC<RangeEditorProps> = ({ entryId, date }) => {
-  const [entries, setEntries] = useAtom(entriesAtom);
-  const entry = entries[date]?.find((e) => e.id === entryId);
-
-  if (!entry) {
-    return <div>Entry not found</div>;
-  }
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = parseFloat(event.target.value);
-    setEntries({
-      ...entries,
-      [date]: entries[date].map((e) => (e.id === entryId ? { ...e, value: newValue } : e)),
-    });
-  };
-
+export const RangeEditor: React.FC<RangeEditorProps> = ({ templateItem, value, setValue }) => {
+  console.log("value", value);
   return (
-    <div>
-      <label>
-        Range Value:
-        <input type="number" value={entry.value as number} onChange={handleChange} />
-      </label>
-    </div>
+    <input
+      type="range"
+      min={templateItem.min}
+      max={templateItem.max}
+      value={value}
+      onChange={(e) => {
+        setValue(parseInt(e.target.value, 10));
+      }}
+    />
   );
 };
-
-export default RangeEditor;
