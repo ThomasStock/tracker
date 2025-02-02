@@ -4,16 +4,18 @@ import type { TagsTemplate } from "../store/templateAtom";
 
 interface TagsEditorProps {
   templateItem: TagsTemplate;
-  value: TagsValue;
+  value: TagsValue | null;
   setValue: (value: TagsValue) => void;
 }
 
 export const TagsEditor: React.FC<TagsEditorProps> = ({ templateItem, value, setValue }) => {
+  console.log("tag", value, templateItem);
   const handleTagChange = (tag: string) => {
-    if (value.includes(tag)) {
+    console.log("handletagchange", tag);
+    if (value?.includes(tag)) {
       setValue(value.filter((t) => t !== tag));
     } else {
-      setValue([...value, tag]);
+      setValue([...(value ?? []), tag]);
     }
   };
 
@@ -21,7 +23,7 @@ export const TagsEditor: React.FC<TagsEditorProps> = ({ templateItem, value, set
     <div>
       {templateItem.values.map((tag) => (
         <label key={tag} className="tag">
-          <input type="checkbox" checked={value.includes(tag)} onChange={() => handleTagChange(tag)} />
+          <input type="checkbox" checked={value?.includes(tag)} onChange={() => handleTagChange(tag)} />
           {tag}
         </label>
       ))}
