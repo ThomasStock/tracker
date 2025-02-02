@@ -1,6 +1,8 @@
 import React from "react";
 import { type EnumValue } from "../store/entriesAtom";
 import type { EnumTemplate } from "../store/templateAtom";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 
 interface EnumEditorProps {
   templateItem: EnumTemplate;
@@ -10,17 +12,13 @@ interface EnumEditorProps {
 
 export const EnumEditor: React.FC<EnumEditorProps> = ({ templateItem, value, setValue }) => {
   return (
-    <select
-      value={value}
-      onChange={(e) => {
-        setValue(e.target.value);
-      }}
-    >
+    <RadioGroup value={value} onValueChange={setValue}>
       {templateItem.values.map((value) => (
-        <option key={value} value={value}>
-          {value}
-        </option>
+        <div className="flex items-center space-x-2">
+          <RadioGroupItem value={value} id={value} />
+          <Label htmlFor={value}>{value}</Label>
+        </div>
       ))}
-    </select>
+    </RadioGroup>
   );
 };
