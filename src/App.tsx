@@ -8,12 +8,12 @@ function App() {
   return (
     <div>
       {openSettings ? (
-        <button onClick={() => setOpenSettings(false)}>close Settings</button>
+        <button onClick={() => setOpenSettings(false)}>Close</button>
       ) : (
-        <>
-          <button onClick={() => setOpenSettings(true)}>open Settings</button>
+        <div className="gap-4 flex">
+          <button onClick={() => setOpenSettings(true)}>Settings</button>
           <button onClick={() => localStorage.clear()}>Reset</button>
-        </>
+        </div>
       )}
 
       {openSettings ? <TemplateEditor /> : <EntriesEditor />}
