@@ -5,10 +5,6 @@ import { EntriesEditor } from "./EntriesEditor/EntriesEditor";
 function App() {
   const [openSettings, setOpenSettings] = useState(false);
 
-  if (openSettings) {
-    return <TemplateEditor />;
-  }
-
   return (
     <div>
       {openSettings ? (
