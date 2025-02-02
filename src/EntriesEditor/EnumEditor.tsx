@@ -12,7 +12,7 @@ interface EnumEditorProps {
 
 export const EnumEditor: React.FC<EnumEditorProps> = ({ templateItem, value, setValue }) => {
   return (
-    <RadioGroup value={value} onValueChange={setValue}>
+    <RadioGroup value={value} onValueChange={setValue} className="flex gap-4 flex-col">
       {templateItem.values.map((value) => (
         <div className="flex items-center space-x-2">
           <RadioGroupItem value={value} id={value} />

@@ -1,6 +1,7 @@
 import React from "react";
 import { type TagsValue } from "../store/entriesAtom";
 import type { TagsTemplate } from "../store/templateAtom";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface TagsEditorProps {
   templateItem: TagsTemplate;
@@ -20,12 +21,14 @@ export const TagsEditor: React.FC<TagsEditorProps> = ({ templateItem, value, set
   };
 
   return (
-    <div>
+    <div className="flex gap-2 flex-col">
       {templateItem.values.map((tag) => (
-        <label key={tag} className="tag">
-          <input type="checkbox" checked={value?.includes(tag)} onChange={() => handleTagChange(tag)} />
-          {tag}
-        </label>
+        <div className="flex items-center space-x-2">
+          <Checkbox id={tag} checked={value?.includes(tag)} onChange={() => handleTagChange(tag)} />
+          <label htmlFor={tag} className="text-sm font-medium leading-none">
+            {tag}
+          </label>
+        </div>
       ))}
     </div>
   );
