@@ -12,7 +12,7 @@ export const EntriesEditor = () => {
   const [entries, setEntries] = useAtom(entriesAtom);
   const template = useAtomValue(templateAtom);
 
-  const [selectedDate, setSelectedDate] = useState(DateTime.now().toISODate());
+  const [selectedDate, _setSelectedDate] = useState(DateTime.now().toISODate());
 
   const entryValues = entries[selectedDate] ?? [];
 
