@@ -14,7 +14,10 @@ function App() {
       {openSettings ? (
         <button onClick={() => setOpenSettings(false)}>close Settings</button>
       ) : (
-        <button onClick={() => setOpenSettings(true)}>open Settings</button>
+        <>
+          <button onClick={() => setOpenSettings(true)}>open Settings</button>
+          <button onClick={() => localStorage.clear()}>Reset</button>
+        </>
       )}
 
       {openSettings ? <TemplateEditor /> : <EntriesEditor />}
