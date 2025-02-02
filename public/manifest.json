@@ -7,12 +7,24 @@
   ],
   "orientation": "portrait",
   "display": "standalone",
-  "dir": "left",
   "lang": "en",
   "name": "Sleep Stack",
   "short_name": "SleepStack",
   "start_url": "https://thomasstock.github.io/tracker/",
   "scope": "https://thomasstock.github.io/tracker/",
   "description": "Sleep tracker with AI analysis",
-  "id": "https://thomasstock.github.io/tracker/"
+  "id": "https://thomasstock.github.io/tracker/",
+  "screenshots": [
+    {
+      "src": "screenshot.jpg",
+      "sizes": "1080x1920",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "screenshot.jpg",
+      "sizes": "1080x1920",
+      "type": "image/jpeg",
+      "form_factor": "wide"
+    }
+  ]
 }
