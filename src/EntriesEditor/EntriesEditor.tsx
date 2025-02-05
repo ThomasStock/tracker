@@ -7,12 +7,13 @@ import { EnumEditor } from "./EnumEditor";
 import { TagsEditor } from "./TagsEditor";
 import { TimeEditor } from "./TimeEditor";
 import { useState } from "react";
+import { useSwipeable } from "react-swipeable";
 
 export const EntriesEditor = () => {
   const [entries, setEntries] = useAtom(entriesAtom);
   const template = useAtomValue(templateAtom);
 
-  const [selectedDate, _setSelectedDate] = useState(DateTime.now().toISODate());
+  const [selectedDate, setSelectedDate] = useState(DateTime.now().toISODate());
 
   const entryValues = entries[selectedDate] ?? [];
 
@@ -23,10 +24,19 @@ export const EntriesEditor = () => {
     }));
   };
 
+  const handlers = useSwipeable({
+    onSwipedLeft: () => setSelectedDate(DateTime.fromISO(selectedDate).plus({ days: 1 }).toISODate()!),
+    onSwipedRight: () => setSelectedDate(DateTime.fromISO(selectedDate).minus({ days: 1 }).toISODate()!),
+  });
+
   return (
-    <div>
+    <div {...handlers}>
       <div className="border p-4 rounded-lg">
-        <h2 className="text-xl font-semibold mb-2">{DateTime.fromISO(selectedDate).toLocaleString(DateTime.DATETIME_FULL)}</h2>
+        <div className="flex flex-row justify-between">
+          <button onClick={() => setSelectedDate(DateTime.fromISO(selectedDate).minus({ days: 1 }).toISODate()!)}>Back</button>
+          <h2 className="text-xl font-semibold mb-2">{DateTime.fromISO(selectedDate).toLocaleString(DateTime.DATETIME_FULL)}</h2>
+          <button onClick={() => setSelectedDate(DateTime.fromISO(selectedDate).plus({ days: 1 }).toISODate()!)}>Forward</button>
+        </div>
         {template.map((templateItem, index) => {
           const entry = entryValues.find((entry) => entry.id === templateItem.id);
           const ItemComponent = ItemComponentMap[templateItem.type.kind];
