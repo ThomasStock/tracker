@@ -9,7 +9,7 @@ import { TimeEditor } from "./TimeEditor";
 import { useState } from "react";
 import { useSwipeable } from "react-swipeable";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export const EntriesEditor = () => {
@@ -41,24 +41,24 @@ export const EntriesEditor = () => {
   });
 
   return (
-    <div {...handlers} className="min-h-screen bg-gray-50 p-4">
-      <Card className="mx-auto max-w-md">
-        <CardHeader className="space-y-4">
-          <div className="flex items-center justify-between space-x-4">
+    <div {...handlers} className="min-h-screen bg-gray-50">
+      <div className="mx-auto max-w-md">
+        <CardHeader className="space-y-4 px-2 sticky top-0 bg-gray-50 z-20 pb-4 pt-6 border-b mb-4">
+          <div className="flex items-center justify-between gap-4">
             <Button variant="ghost" size="icon" onClick={goBack}>
-              <ChevronLeft className="h-5 w-5" />
+              <ChevronLeft className="!size-6" />
               <span className="sr-only">Previous day</span>
             </Button>
             <div className="text-center">
               <div className="text-xl font-semibold">{selectedDate.toLocaleString(DateTime.DATE_FULL)}</div>
             </div>
-            <Button variant="ghost" size="icon" onClick={goForward}>
-              <ChevronRight className="h-5 w-5" />
+            <Button variant="ghost" onClick={goForward}>
+              <ChevronRight className="!size-6" />
               <span className="sr-only">Next day</span>
             </Button>
           </div>
         </CardHeader>
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-6 px-2">
           {template.map((templateItem, index) => {
             const entry = entryValues.find((entry) => entry.id === templateItem.id);
             const ItemComponent = ItemComponentMap[templateItem.type.kind];
@@ -75,7 +75,7 @@ export const EntriesEditor = () => {
             );
           })}
         </CardContent>
-      </Card>
+      </div>
     </div>
   );
 };
