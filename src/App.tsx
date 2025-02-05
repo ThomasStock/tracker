@@ -3,9 +3,12 @@ import TemplateEditor from "./TemplateEditor/TemplateEditor";
 import { EntriesEditor } from "./EntriesEditor/EntriesEditor";
 import { Button } from "@/components/ui/button";
 import { Settings } from "lucide-react";
+import { useAtom } from "jotai";
+import { entriesAtom } from "./store/entriesAtom";
 
 function App() {
   const [openSettings, setOpenSettings] = useState(false);
+  const [, setEntries] = useAtom(entriesAtom);
 
   return (
     <div className="min-h-screen bg-gray-50 p-4">
@@ -14,7 +17,7 @@ function App() {
           <Settings className="h-5 w-5" />
           <span className="sr-only">Settings</span>
         </Button>
-        <Button variant="ghost" onClick={() => localStorage.clear()}>
+        <Button variant="ghost" onClick={() => setEntries({})}>
           Reset
         </Button>
       </div>

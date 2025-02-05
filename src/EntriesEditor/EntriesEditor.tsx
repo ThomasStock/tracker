@@ -21,10 +21,13 @@ export const EntriesEditor = () => {
   const entryValues = entries[selectedDate.toISODate()] ?? [];
 
   const setEntryValue = (id: number, value: any) => {
-    setEntries((prev) => ({
-      ...prev,
-      [selectedDate.toISODate()]: prev[selectedDate.toISODate()].map((entry) => (entry.id === id ? { ...entry, value } : entry)),
-    }));
+    setEntries((prev) => {
+      const dateEntries = prev[selectedDate.toISODate()] ?? [];
+      const updatedEntries = dateEntries.some((entry) => entry.id === id)
+        ? dateEntries.map((entry) => (entry.id === id ? { ...entry, value } : entry))
+        : [...dateEntries, { id, value }];
+      return { ...prev, [selectedDate.toISODate()]: updatedEntries };
+    });
   };
 
   const goBack = () => {

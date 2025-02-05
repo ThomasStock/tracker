@@ -11,6 +11,7 @@ interface TagsEditorProps {
 
 export const TagsEditor: React.FC<TagsEditorProps> = ({ templateItem, value, setValue }) => {
   const handleTagChange = (tag: string) => {
+    console.log("tag", tag, value);
     if (value?.includes(tag)) {
       setValue(value.filter((t) => t !== tag));
     } else {
@@ -18,19 +19,23 @@ export const TagsEditor: React.FC<TagsEditorProps> = ({ templateItem, value, set
     }
   };
 
+  // console.log({ value });
+
   return (
     <div className="space-y-3">
       {templateItem.values.map((tag) => (
-        <div
+        <label
           key={tag}
           className="flex items-center space-x-3 rounded-lg border p-4 cursor-pointer hover:bg-accent"
-          onClick={() => handleTagChange(tag)}
+          onClick={(e) => {
+            handleTagChange(tag);
+            e.preventDefault();
+            e.stopPropagation();
+          }}
         >
-          <Checkbox id={tag} checked={value?.includes(tag)} onChange={() => handleTagChange(tag)} className="w-6 h-6" />
-          <label htmlFor={tag} className="flex-1 text-base cursor-pointer">
-            {tag}
-          </label>
-        </div>
+          <Checkbox id={tag} checked={value?.includes(tag)} className="w-6 h-6" />
+          <span className="flex-1 text-base cursor-pointer">{tag}</span>
+        </label>
       ))}
     </div>
   );
