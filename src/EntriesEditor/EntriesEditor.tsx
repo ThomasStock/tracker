@@ -13,29 +13,37 @@ export const EntriesEditor = () => {
   const [entries, setEntries] = useAtom(entriesAtom);
   const template = useAtomValue(templateAtom);
 
-  const [selectedDate, setSelectedDate] = useState(DateTime.now().toISODate());
+  const [selectedDate, setSelectedDate] = useState(DateTime.now());
 
-  const entryValues = entries[selectedDate] ?? [];
+  const entryValues = entries[selectedDate.toISODate()] ?? [];
 
   const setEntryValue = (id: number, value: any) => {
     setEntries((prev) => ({
       ...prev,
-      [selectedDate]: prev[selectedDate].map((entry) => (entry.id === id ? { ...entry, value } : entry)),
+      [selectedDate.toISODate()]: prev[selectedDate.toISODate()].map((entry) => (entry.id === id ? { ...entry, value } : entry)),
     }));
   };
 
+  const goBack = () => {
+    setSelectedDate(selectedDate.minus({ days: 1 }));
+  };
+
+  const goForward = () => {
+    setSelectedDate(selectedDate.plus({ days: 1 }));
+  };
+
   const handlers = useSwipeable({
-    onSwipedLeft: () => setSelectedDate(DateTime.fromISO(selectedDate).plus({ days: 1 }).toISODate()!),
-    onSwipedRight: () => setSelectedDate(DateTime.fromISO(selectedDate).minus({ days: 1 }).toISODate()!),
+    onSwipedLeft: goForward,
+    onSwipedRight: goBack,
   });
 
   return (
     <div {...handlers}>
       <div className="border p-4 rounded-lg">
         <div className="flex flex-row justify-between">
-          <button onClick={() => setSelectedDate(DateTime.fromISO(selectedDate).minus({ days: 1 }).toISODate()!)}>Back</button>
-          <h2 className="text-xl font-semibold mb-2">{DateTime.fromISO(selectedDate).toLocaleString(DateTime.DATETIME_FULL)}</h2>
-          <button onClick={() => setSelectedDate(DateTime.fromISO(selectedDate).plus({ days: 1 }).toISODate()!)}>Forward</button>
+          <button onClick={goBack}>Back</button>
+          <h2 className="text-xl font-semibold mb-2">{selectedDate.toLocaleString(DateTime.DATETIME_FULL)}</h2>
+          <button onClick={goForward}>Forward</button>
         </div>
         {template.map((templateItem, index) => {
           const entry = entryValues.find((entry) => entry.id === templateItem.id);
