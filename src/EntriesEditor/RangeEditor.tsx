@@ -10,17 +10,16 @@ interface RangeEditorProps {
 }
 
 export const RangeEditor: React.FC<RangeEditorProps> = ({ templateItem, value, setValue }) => {
-  console.log("value", value);
   return (
-    <Slider
-      defaultValue={[33]}
-      value={[value]}
-      onValueChange={(e) => {
-        setValue(e[0]);
-      }}
-      max={templateItem.max}
-      min={templateItem.min}
-      step={1}
-    />
+    <div className="space-y-3">
+      <Slider
+        value={[value]}
+        onValueChange={(e) => setValue(e[0])}
+        max={templateItem.max}
+        min={templateItem.min}
+        step={1}
+        className="py-4"
+      />
+    </div>
   );
 };

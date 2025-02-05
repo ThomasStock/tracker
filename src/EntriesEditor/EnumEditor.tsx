@@ -1,7 +1,7 @@
 import React from "react";
 import { type EnumValue } from "../store/entriesAtom";
 import type { EnumTemplate } from "../store/templateAtom";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { RadioGroup } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Check } from "lucide-react"; // Import the checkmark icon
 

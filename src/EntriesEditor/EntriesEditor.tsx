@@ -41,9 +41,9 @@ export const EntriesEditor = () => {
   });
 
   return (
-    <div {...handlers} className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50">
       <div className="mx-auto max-w-md">
-        <CardHeader className="space-y-4 px-2 sticky top-0 bg-gray-50 z-20 pb-4 pt-6 border-b mb-4">
+        <CardHeader {...handlers} className="space-y-4 px-2 sticky top-0 bg-gray-50 z-20 pb-4 pt-6 border-b mb-4">
           <div className="flex items-center justify-between gap-4">
             <Button variant="ghost" size="icon" onClick={goBack}>
               <ChevronLeft className="!size-6" />
