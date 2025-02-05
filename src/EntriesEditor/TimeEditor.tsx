@@ -1,6 +1,7 @@
 import React from "react";
 import { type TimeValue } from "../store/entriesAtom";
 import type { TimeTemplate } from "../store/templateAtom";
+import { TimePicker } from "./TimePicker";
 
 interface TimeEditorProps {
   templateItem: TimeTemplate;
@@ -9,9 +10,9 @@ interface TimeEditorProps {
 }
 
 export const TimeEditor: React.FC<TimeEditorProps> = ({ value, setValue }) => {
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value);
+  const handleChange = (newValue: string) => {
+    setValue(newValue);
   };
 
-  return <input type="time" value={value} onChange={handleChange} min="12:00" step={900} />;
+  return <TimePicker time={value} onTimeSelected={handleChange} />;
 };
