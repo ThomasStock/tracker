@@ -1,0 +1,102 @@
+"use client"
+
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Checkbox } from "@/components/ui/checkbox"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Slider } from "@/components/ui/slider"
+import { ChevronLeft, ChevronRight, Clock, Settings } from "lucide-react"
+
+export default function HealthTracker() {
+  return (
+    <div className="min-h-screen bg-gray-50 p-4">
+      <Card className="mx-auto max-w-md">
+        <CardHeader className="space-y-4">
+          <div className="flex items-center justify-between">
+            <Button variant="ghost" size="icon">
+              <Settings className="h-5 w-5" />
+              <span className="sr-only">Settings</span>
+            </Button>
+            <Button variant="ghost">Reset</Button>
+          </div>
+
+          <div className="flex items-center justify-between space-x-4">
+            <Button variant="ghost" size="icon">
+              <ChevronLeft className="h-5 w-5" />
+              <span className="sr-only">Previous day</span>
+            </Button>
+            <div className="text-center">
+              <div className="text-xl font-semibold">5 February 2025</div>
+              <div className="text-sm text-muted-foreground">20:10 CET</div>
+            </div>
+            <Button variant="ghost" size="icon">
+              <ChevronRight className="h-5 w-5" />
+              <span className="sr-only">Next day</span>
+            </Button>
+          </div>
+        </CardHeader>
+
+        <CardContent className="space-y-6">
+          <div className="space-y-3">
+            <CardTitle>Sleep quality</CardTitle>
+            <Slider defaultValue={[35]} max={100} step={1} className="py-4" />
+          </div>
+
+          <div className="space-y-3">
+            <CardTitle>Alcohol consumption yesterday</CardTitle>
+            <RadioGroup defaultValue="2" className="space-y-3">
+              {[
+                { value: "1", label: "1 drink" },
+                { value: "2", label: "2 drinks" },
+                { value: "3", label: "3 or more drinks" },
+              ].map((option) => (
+                <div
+                  key={option.value}
+                  className="flex items-center space-x-3 rounded-lg border p-4 cursor-pointer hover:bg-accent"
+                >
+                  <RadioGroupItem value={option.value} id={`drinks-${option.value}`} className="w-6 h-6" />
+                  <label htmlFor={`drinks-${option.value}`} className="flex-1 text-base cursor-pointer">
+                    {option.label}
+                  </label>
+                </div>
+              ))}
+            </RadioGroup>
+          </div>
+
+          <div className="space-y-3">
+            <CardTitle>Last alcohol consumption yesterday</CardTitle>
+            <div className="flex items-center space-x-2">
+              <Button variant="outline" className="w-32 h-12 text-lg">
+                --:--
+              </Button>
+              <Clock className="h-5 w-5 text-muted-foreground" />
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <CardTitle>Exercised yesterday</CardTitle>
+            <div className="space-y-3">
+              {[
+                { id: "minimal", label: "Minimal" },
+                { id: "gym", label: "Gym" },
+                { id: "walk", label: "Walk" },
+                { id: "running", label: "Running" },
+              ].map((exercise) => (
+                <div
+                  key={exercise.id}
+                  className="flex items-center space-x-3 rounded-lg border p-4 cursor-pointer hover:bg-accent"
+                >
+                  <Checkbox id={exercise.id} className="w-6 h-6" />
+                  <label htmlFor={exercise.id} className="flex-1 text-base cursor-pointer">
+                    {exercise.label}
+                  </label>
+                </div>
+              ))}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
+

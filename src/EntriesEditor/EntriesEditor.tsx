@@ -8,6 +8,9 @@ import { TagsEditor } from "./TagsEditor";
 import { TimeEditor } from "./TimeEditor";
 import { useState } from "react";
 import { useSwipeable } from "react-swipeable";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export const EntriesEditor = () => {
   const [entries, setEntries] = useAtom(entriesAtom);
@@ -38,30 +41,41 @@ export const EntriesEditor = () => {
   });
 
   return (
-    <div {...handlers}>
-      <div className="border p-4 rounded-lg">
-        <div className="flex flex-row justify-between">
-          <button onClick={goBack}>Back</button>
-          <h2 className="text-xl font-semibold mb-2">{selectedDate.toLocaleString(DateTime.DATETIME_FULL)}</h2>
-          <button onClick={goForward}>Forward</button>
-        </div>
-        {template.map((templateItem, index) => {
-          const entry = entryValues.find((entry) => entry.id === templateItem.id);
-          const ItemComponent = ItemComponentMap[templateItem.type.kind];
-          console.log("rendering", templateItem.title, templateItem.type.kind, entry);
-          return (
-            <div key={templateItem.id} className="mb-4">
-              <h3 className="text-lg font-semibold mb-2">{templateItem.title}</h3>
-              <ItemComponent
-                key={index}
-                templateItem={templateItem.type as never}
-                value={entry?.value as never}
-                setValue={(newValue) => setEntryValue(templateItem.id, newValue)}
-              />
+    <div {...handlers} className="min-h-screen bg-gray-50 p-4">
+      <Card className="mx-auto max-w-md">
+        <CardHeader className="space-y-4">
+          <div className="flex items-center justify-between space-x-4">
+            <Button variant="ghost" size="icon" onClick={goBack}>
+              <ChevronLeft className="h-5 w-5" />
+              <span className="sr-only">Previous day</span>
+            </Button>
+            <div className="text-center">
+              <div className="text-xl font-semibold">{selectedDate.toLocaleString(DateTime.DATE_FULL)}</div>
             </div>
-          );
-        })}
-      </div>
+            <Button variant="ghost" size="icon" onClick={goForward}>
+              <ChevronRight className="h-5 w-5" />
+              <span className="sr-only">Next day</span>
+            </Button>
+          </div>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {template.map((templateItem, index) => {
+            const entry = entryValues.find((entry) => entry.id === templateItem.id);
+            const ItemComponent = ItemComponentMap[templateItem.type.kind];
+            return (
+              <div key={templateItem.id} className="space-y-3">
+                <CardTitle>{templateItem.title}</CardTitle>
+                <ItemComponent
+                  key={index}
+                  templateItem={templateItem.type as never}
+                  value={entry?.value as never}
+                  setValue={(newValue) => setEntryValue(templateItem.id, newValue)}
+                />
+              </div>
+            );
+          })}
+        </CardContent>
+      </Card>
     </div>
   );
 };
