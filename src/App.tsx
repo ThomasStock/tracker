@@ -11,8 +11,8 @@ function App() {
   const [, setEntries] = useAtom(entriesAtom);
 
   return (
-    <div className="min-h-screen max-w-xl bg-gray-50 p-4">
-      <div className="flex items-center justify-between sticky top-0 pt-2 z-20 bg-gray-50">
+    <div className="min-h-screen max-w-xl bg-background p-4">
+      <div className="flex items-center justify-between sticky top-0 pt-2 z-20 bg-background">
         <Button variant="ghost" size="icon" onClick={() => setOpenSettings(!openSettings)}>
           <Settings className="h-5 w-5" />
           <span className="sr-only">Settings</span>

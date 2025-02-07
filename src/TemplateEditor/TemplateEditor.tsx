@@ -5,6 +5,8 @@ import TimeItem from "./TimeItem";
 import TagsItem from "./TagsItem";
 import AddItemForm from "./AddItemForm";
 import { templateAtom, type TemplateItem } from "../store/templateAtom";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 
 export default function TemplateEditor() {
   const [template, setTemplate] = useAtom(templateAtom);
@@ -26,16 +28,13 @@ export default function TemplateEditor() {
       {template.map((item, index) => {
         const ItemComponent = ItemComponentMap[item.type.kind];
         return (
-          <div key={index} className="border p-4 rounded-lg">
+          <Card key={index} className="p-4">
             <h2 className="text-xl font-semibold mb-2">{item.title}</h2>
             <ItemComponent item={item.type as never} onChange={(type: any) => editItem(index, { ...item, type })} />
-            <button
-              onClick={() => removeItem(index)}
-              className="mt-2 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors"
-            >
+            <Button onClick={() => removeItem(index)} variant="destructive" className="mt-2">
               Remove
-            </button>
-          </div>
+            </Button>
+          </Card>
         );
       })}
       <AddItemForm addItem={addItem} />
