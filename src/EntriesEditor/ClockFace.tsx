@@ -38,7 +38,7 @@ export function ClockFace({ time, view, onChange }: ClockFaceProps) {
 
       return (
         <button
-          key={num}
+          key={`hour-${radius}-${num}`}
           className={cn(
             "absolute flex items-center justify-center rounded-full text-sm transition-colors",
             num === hours ? "bg-primary text-primary-foreground" : "hover:bg-gray-200",
@@ -62,7 +62,7 @@ export function ClockFace({ time, view, onChange }: ClockFaceProps) {
 
       return (
         <button
-          key={num}
+          key={`minute-${num}`}
           className={cn(
             "absolute flex h-10 w-10 -ml-5 -mt-5 items-center justify-center rounded-full text-sm transition-colors",
             num === minutes ? "bg-primary text-primary-foreground" : "hover:bg-gray-200"

@@ -18,7 +18,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const typeLabels = {
   range: "Numeric Range",
@@ -27,13 +28,59 @@ const typeLabels = {
   tags: "Multiple Choice",
 } as const;
 
+const itemVariants = {
+  hidden: {
+    opacity: 0,
+    scale: 0.8,
+    height: 0,
+    marginBottom: 0,
+  },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    height: "auto",
+    marginBottom: 16, // matches space-y-4
+    transition: {
+      type: "spring",
+      bounce: 0.3,
+      duration: 0.6,
+    },
+  },
+  exit: {
+    opacity: 0,
+    scale: 0.9,
+    transition: {
+      duration: 0.2,
+    },
+  },
+  exitHeight: {
+    height: 0,
+    marginBottom: 0,
+    transition: {
+      duration: 0.3,
+      delay: 0.1,
+    },
+  },
+};
+
 export default function TemplateEditor() {
   const [template, setTemplate] = useAtom(templateAtom);
   const [itemToRemove, setItemToRemove] = useState<number | null>(null);
+  const [isRemoving, setIsRemoving] = useState(false);
+  const isInitialMount = useRef(true);
+
+  useEffect(() => {
+    isInitialMount.current = false;
+  }, []);
 
   const removeItem = (index: number) => {
-    setTemplate(template.filter((_, i) => i !== index));
-    setItemToRemove(null);
+    setIsRemoving(true);
+    // Wait for dialog to close before starting remove animation
+    setTimeout(() => {
+      setTemplate(template.filter((_, i) => i !== index));
+      setItemToRemove(null);
+      setIsRemoving(false);
+    }, 200); // Match this with dialog close animation duration
   };
 
   const editItem = (index: number, newItem: TemplateItem) => {
@@ -45,8 +92,15 @@ export default function TemplateEditor() {
   };
 
   return (
-    <div className="space-y-4 pb-8">
-      <AlertDialog open={itemToRemove !== null} onOpenChange={(open) => !open && setItemToRemove(null)}>
+    <div className="pb-8">
+      <AlertDialog
+        open={itemToRemove !== null}
+        onOpenChange={(open) => {
+          if (!open && !isRemoving) {
+            setItemToRemove(null);
+          }
+        }}
+      >
         <AlertDialogContent className="max-w-[90vw] sm:max-w-lg">
           <AlertDialogHeader>
             <AlertDialogTitle>Remove Template Item</AlertDialogTitle>
@@ -66,32 +120,45 @@ export default function TemplateEditor() {
         </AlertDialogContent>
       </AlertDialog>
 
-      {template.map((item, index) => {
-        const ItemComponent = ItemComponentMap[item.type.kind];
-        return (
-          <Card key={index}>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <div className="flex items-center gap-2">
-                <CardTitle className="text-base font-semibold">{item.title}</CardTitle>
-                <CardDescription className="text-xs rounded-md bg-muted px-2 py-0.5">{typeLabels[item.type.kind]}</CardDescription>
-              </div>
-              <Button
-                onClick={() => setItemToRemove(index)}
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 rounded-full text-muted-foreground hover:text-destructive hover:bg-destructive/10"
-              >
-                <X className="h-4 w-4" />
-                <span className="sr-only">Remove item</span>
-              </Button>
-            </CardHeader>
-            <CardContent>
-              <ItemComponent item={item.type as never} onChange={(type: any) => editItem(index, { ...item, type })} />
-            </CardContent>
-          </Card>
-        );
-      })}
-      <AddItemForm addItem={addItem} />
+      <AnimatePresence mode="popLayout">
+        {template.map((item, index) => {
+          const ItemComponent = ItemComponentMap[item.type.kind];
+          return (
+            <motion.div
+              key={index}
+              variants={itemVariants}
+              initial={isInitialMount.current ? "visible" : "hidden"}
+              animate="visible"
+              exit={["exit", "exitHeight"]}
+              className="relative"
+            >
+              <Card className="overflow-hidden">
+                <CardHeader className="flex flex-row items-center justify-between pb-2">
+                  <div className="flex items-center gap-2">
+                    <CardTitle className="text-base font-semibold">{item.title}</CardTitle>
+                    <CardDescription className="text-xs rounded-md bg-muted px-2 py-0.5">{typeLabels[item.type.kind]}</CardDescription>
+                  </div>
+                  <Button
+                    onClick={() => setItemToRemove(index)}
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8 rounded-full text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+                  >
+                    <X className="h-4 w-4" />
+                    <span className="sr-only">Remove item</span>
+                  </Button>
+                </CardHeader>
+                <CardContent>
+                  <ItemComponent item={item.type as never} onChange={(type: any) => editItem(index, { ...item, type })} />
+                </CardContent>
+              </Card>
+            </motion.div>
+          );
+        })}
+      </AnimatePresence>
+      <div className="mt-4">
+        <AddItemForm addItem={addItem} />
+      </div>
     </div>
   );
 }

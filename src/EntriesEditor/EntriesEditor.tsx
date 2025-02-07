@@ -62,14 +62,13 @@ export const EntriesEditor = () => {
           </div>
         </CardHeader>
         <CardContent className="space-y-6 px-2">
-          {template.map((templateItem, index) => {
+          {template.map((templateItem) => {
             const entry = entryValues.find((entry) => entry.id === templateItem.id);
             const ItemComponent = ItemComponentMap[templateItem.type.kind];
             return (
               <div key={templateItem.id} className="space-y-3">
                 <CardTitle>{templateItem.title}</CardTitle>
                 <ItemComponent
-                  key={index}
                   templateItem={templateItem.type as never}
                   value={entry?.value as never}
                   setValue={(newValue) => setEntryValue(templateItem.id, newValue)}
