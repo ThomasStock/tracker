@@ -6,8 +6,15 @@ import TagsItem from "./TagsItem";
 import AddItemForm from "./AddItemForm";
 import { templateAtom, type TemplateItem } from "../store/templateAtom";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Trash2 } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { X } from "lucide-react";
+
+const typeLabels = {
+  range: "Numeric Range",
+  enum: "Single Choice",
+  time: "Time Picker",
+  tags: "Multiple Choice",
+} as const;
 
 export default function TemplateEditor() {
   const [template, setTemplate] = useAtom(templateAtom);
@@ -30,15 +37,18 @@ export default function TemplateEditor() {
         const ItemComponent = ItemComponentMap[item.type.kind];
         return (
           <Card key={index}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-base font-semibold">{item.title}</CardTitle>
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <div className="flex items-center gap-2">
+                <CardTitle className="text-base font-semibold">{item.title}</CardTitle>
+                <CardDescription className="text-xs rounded-md bg-muted px-2 py-0.5">{typeLabels[item.type.kind]}</CardDescription>
+              </div>
               <Button
                 onClick={() => removeItem(index)}
                 variant="ghost"
                 size="icon"
-                className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                className="h-8 w-8 rounded-full text-muted-foreground hover:text-destructive hover:bg-destructive/10"
               >
-                <Trash2 className="h-4 w-4" />
+                <X className="h-4 w-4" />
                 <span className="sr-only">Remove item</span>
               </Button>
             </CardHeader>
