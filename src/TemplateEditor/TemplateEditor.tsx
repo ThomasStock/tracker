@@ -6,7 +6,8 @@ import TagsItem from "./TagsItem";
 import AddItemForm from "./AddItemForm";
 import { templateAtom, type TemplateItem } from "../store/templateAtom";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Trash2 } from "lucide-react";
 
 export default function TemplateEditor() {
   const [template, setTemplate] = useAtom(templateAtom);
@@ -24,20 +25,26 @@ export default function TemplateEditor() {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 pb-8">
       {template.map((item, index) => {
         const ItemComponent = ItemComponentMap[item.type.kind];
         return (
-          <Card key={index} className="p-4">
-            <h2 className="text-xl font-semibold mb-2">{item.title}</h2>
-            <ItemComponent item={item.type as never} onChange={(type: any) => editItem(index, { ...item, type })} />
-            <Button
-              onClick={() => removeItem(index)}
-              variant="outline"
-              className="mt-2 text-destructive hover:bg-destructive/10 hover:text-destructive"
-            >
-              Remove
-            </Button>
+          <Card key={index}>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-base font-semibold">{item.title}</CardTitle>
+              <Button
+                onClick={() => removeItem(index)}
+                variant="ghost"
+                size="icon"
+                className="text-destructive hover:text-destructive hover:bg-destructive/10"
+              >
+                <Trash2 className="h-4 w-4" />
+                <span className="sr-only">Remove item</span>
+              </Button>
+            </CardHeader>
+            <CardContent>
+              <ItemComponent item={item.type as never} onChange={(type: any) => editItem(index, { ...item, type })} />
+            </CardContent>
           </Card>
         );
       })}

@@ -1,6 +1,8 @@
 import type { TagsTemplate } from "../store/templateAtom";
 import type { TemplateItemProps } from "./types";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Trash2 } from "lucide-react";
 
 export default function TagsItem({ item, onChange }: TemplateItemProps<TagsTemplate>) {
   if (item.kind !== "tags") {
@@ -29,19 +31,22 @@ export default function TagsItem({ item, onChange }: TemplateItemProps<TagsTempl
   };
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-3">
       {item.values.map((tag, tagIndex) => (
-        <div key={tagIndex} className="flex items-center space-x-2">
-          <input value={tag} onChange={(e) => updateTag(tagIndex, e.target.value)} className="border rounded px-2 py-1 flex-grow" />
-          <button
+        <div key={tagIndex} className="flex items-center gap-2">
+          <Input value={tag} onChange={(e) => updateTag(tagIndex, e.target.value)} placeholder={`Tag ${tagIndex + 1}`} className="flex-1" />
+          <Button
             onClick={() => removeTag(tagIndex)}
-            className="text-destructive bg-transparent border border-input hover:bg-destructive/10 px-2 py-1 rounded transition-colors"
+            variant="ghost"
+            size="icon"
+            className="text-destructive hover:text-destructive hover:bg-destructive/10"
           >
-            Remove
-          </button>
+            <Trash2 className="h-4 w-4" />
+            <span className="sr-only">Remove tag</span>
+          </Button>
         </div>
       ))}
-      <Button onClick={addTag} variant="secondary">
+      <Button onClick={addTag} variant="secondary" className="w-full">
         Add Tag
       </Button>
     </div>

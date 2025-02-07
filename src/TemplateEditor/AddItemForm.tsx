@@ -1,6 +1,10 @@
 import { useState } from "react";
 import type { TemplateItem } from "../store/templateAtom";
 import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardContent } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function AddItemForm({ addItem }: { addItem: (item: TemplateItem) => void }) {
   const [title, setTitle] = useState("");
@@ -28,35 +32,33 @@ export default function AddItemForm({ addItem }: { addItem: (item: TemplateItem)
   };
 
   return (
-    <div className="space-y-4 border p-4 rounded-lg">
-      <h2 className="text-xl font-semibold">Add New Item</h2>
-      <div className="space-y-2">
-        <label htmlFor="title" className="block font-medium">
-          Title
-        </label>
-        <input
-          id="title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Enter title"
-          className="w-full border rounded px-2 py-1"
-        />
-      </div>
-      <div className="space-y-2">
-        <label htmlFor="kind" className="block font-medium">
-          Kind
-        </label>
-        <select id="kind" value={kind} onChange={(e) => setKind(e.target.value)} className="w-full border rounded px-2 py-1">
-          <option value="">Select kind</option>
-          <option value="range">Range</option>
-          <option value="enum">Enum</option>
-          <option value="time">Time</option>
-          <option value="tags">Tags</option>
-        </select>
-      </div>
-      <Button onClick={handleAddItem} variant="secondary">
-        Add Item
-      </Button>
-    </div>
+    <Card className="w-full">
+      <CardHeader>
+        <h2 className="text-lg font-semibold">Add New Item</h2>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="space-y-2">
+          <Label htmlFor="title">Title</Label>
+          <Input id="title" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Enter title" />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="kind">Kind</Label>
+          <Select value={kind} onValueChange={setKind}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select kind" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="range">Range</SelectItem>
+              <SelectItem value="enum">Enum</SelectItem>
+              <SelectItem value="time">Time</SelectItem>
+              <SelectItem value="tags">Tags</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <Button onClick={handleAddItem} className="w-full" disabled={!title || !kind}>
+          Add Item
+        </Button>
+      </CardContent>
+    </Card>
   );
 }

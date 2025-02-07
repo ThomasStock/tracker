@@ -1,6 +1,8 @@
 import { useId } from "react";
 import type { TemplateItemProps } from "./types";
 import type { RangeTemplate } from "../store/templateAtom";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export default function RangeItem({ item, onChange }: TemplateItemProps<RangeTemplate>) {
   if (item.kind !== "range") {
@@ -17,30 +19,14 @@ export default function RangeItem({ item, onChange }: TemplateItemProps<RangeTem
   };
 
   return (
-    <div className="space-y-2">
-      <div className="flex items-center space-x-2">
-        <label htmlFor={`min-${id}`} className="font-medium">
-          Min:
-        </label>
-        <input
-          id={`min-${id}`}
-          type="number"
-          value={item.min}
-          onChange={(e) => updateItem("min", Number(e.target.value))}
-          className="border rounded px-2 py-1"
-        />
+    <div className="grid grid-cols-2 gap-4">
+      <div className="space-y-2">
+        <Label htmlFor={`min-${id}`}>Min</Label>
+        <Input id={`min-${id}`} type="number" value={item.min} onChange={(e) => updateItem("min", Number(e.target.value))} />
       </div>
-      <div className="flex items-center space-x-2">
-        <label htmlFor={`max-${id}`} className="font-medium">
-          Max:
-        </label>
-        <input
-          id={`max-${id}`}
-          type="number"
-          value={item.max}
-          onChange={(e) => updateItem("max", Number(e.target.value))}
-          className="border rounded px-2 py-1"
-        />
+      <div className="space-y-2">
+        <Label htmlFor={`max-${id}`}>Max</Label>
+        <Input id={`max-${id}`} type="number" value={item.max} onChange={(e) => updateItem("max", Number(e.target.value))} />
       </div>
     </div>
   );

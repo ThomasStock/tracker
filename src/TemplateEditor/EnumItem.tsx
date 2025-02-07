@@ -1,6 +1,8 @@
 import type { EnumTemplate } from "../store/templateAtom";
 import type { TemplateItemProps } from "./types";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Trash2 } from "lucide-react";
 
 export default function EnumItem({ item, onChange }: TemplateItemProps<EnumTemplate>) {
   if (item.kind !== "enum") {
@@ -27,21 +29,30 @@ export default function EnumItem({ item, onChange }: TemplateItemProps<EnumTempl
       values: [...item.values, ""],
     });
   };
+
   return (
-    <div className="space-y-2">
+    <div className="space-y-3">
       {item.values.map((value, valueIndex) => (
-        <div key={valueIndex} className="flex items-center space-x-2">
-          <input value={value} onChange={(e) => updateValue(valueIndex, e.target.value)} className="border rounded px-2 py-1 flex-grow" />
-          <button
+        <div key={valueIndex} className="flex items-center gap-2">
+          <Input
+            value={value}
+            onChange={(e) => updateValue(valueIndex, e.target.value)}
+            placeholder={`Option ${valueIndex + 1}`}
+            className="flex-1"
+          />
+          <Button
             onClick={() => removeValue(valueIndex)}
-            className="text-destructive bg-transparent border border-input hover:bg-destructive/10 px-2 py-1 rounded transition-colors"
+            variant="ghost"
+            size="icon"
+            className="text-destructive hover:text-destructive hover:bg-destructive/10"
           >
-            Remove
-          </button>
+            <Trash2 className="h-4 w-4" />
+            <span className="sr-only">Remove option</span>
+          </Button>
         </div>
       ))}
-      <Button onClick={addValue} variant="secondary">
-        Add Value
+      <Button onClick={addValue} variant="secondary" className="w-full">
+        Add Option
       </Button>
     </div>
   );
