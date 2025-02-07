@@ -1,5 +1,6 @@
 import type { TagsTemplate } from "../store/templateAtom";
 import type { TemplateItemProps } from "./types";
+import { Button } from "@/components/ui/button";
 
 export default function TagsItem({ item, onChange }: TemplateItemProps<TagsTemplate>) {
   if (item.kind !== "tags") {
@@ -32,14 +33,17 @@ export default function TagsItem({ item, onChange }: TemplateItemProps<TagsTempl
       {item.values.map((tag, tagIndex) => (
         <div key={tagIndex} className="flex items-center space-x-2">
           <input value={tag} onChange={(e) => updateTag(tagIndex, e.target.value)} className="border rounded px-2 py-1 flex-grow" />
-          <button onClick={() => removeTag(tagIndex)} className="bg-gray-200 px-2 py-1 rounded hover:bg-gray-300 transition-colors">
+          <button
+            onClick={() => removeTag(tagIndex)}
+            className="text-destructive bg-transparent border border-input hover:bg-destructive/10 px-2 py-1 rounded transition-colors"
+          >
             Remove
           </button>
         </div>
       ))}
-      <button onClick={addTag} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors">
+      <Button onClick={addTag} variant="secondary">
         Add Tag
-      </button>
+      </Button>
     </div>
   );
 }

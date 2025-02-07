@@ -1,5 +1,6 @@
 import type { EnumTemplate } from "../store/templateAtom";
 import type { TemplateItemProps } from "./types";
+import { Button } from "@/components/ui/button";
 
 export default function EnumItem({ item, onChange }: TemplateItemProps<EnumTemplate>) {
   if (item.kind !== "enum") {
@@ -31,14 +32,17 @@ export default function EnumItem({ item, onChange }: TemplateItemProps<EnumTempl
       {item.values.map((value, valueIndex) => (
         <div key={valueIndex} className="flex items-center space-x-2">
           <input value={value} onChange={(e) => updateValue(valueIndex, e.target.value)} className="border rounded px-2 py-1 flex-grow" />
-          <button onClick={() => removeValue(valueIndex)} className="bg-gray-200 px-2 py-1 rounded hover:bg-gray-300 transition-colors">
+          <button
+            onClick={() => removeValue(valueIndex)}
+            className="text-destructive bg-transparent border border-input hover:bg-destructive/10 px-2 py-1 rounded transition-colors"
+          >
             Remove
           </button>
         </div>
       ))}
-      <button onClick={addValue} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors">
+      <Button onClick={addValue} variant="secondary">
         Add Value
-      </button>
+      </Button>
     </div>
   );
 }

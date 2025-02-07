@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { TemplateItem } from "../store/templateAtom";
+import { Button } from "@/components/ui/button";
 
 export default function AddItemForm({ addItem }: { addItem: (item: TemplateItem) => void }) {
   const [title, setTitle] = useState("");
@@ -53,9 +54,9 @@ export default function AddItemForm({ addItem }: { addItem: (item: TemplateItem)
           <option value="tags">Tags</option>
         </select>
       </div>
-      <button onClick={handleAddItem} className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors">
+      <Button onClick={handleAddItem} variant="secondary">
         Add Item
-      </button>
+      </Button>
     </div>
   );
 }

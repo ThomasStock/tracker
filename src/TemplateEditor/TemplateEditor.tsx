@@ -31,7 +31,11 @@ export default function TemplateEditor() {
           <Card key={index} className="p-4">
             <h2 className="text-xl font-semibold mb-2">{item.title}</h2>
             <ItemComponent item={item.type as never} onChange={(type: any) => editItem(index, { ...item, type })} />
-            <Button onClick={() => removeItem(index)} variant="destructive" className="mt-2">
+            <Button
+              onClick={() => removeItem(index)}
+              variant="outline"
+              className="mt-2 text-destructive hover:bg-destructive/10 hover:text-destructive"
+            >
               Remove
             </Button>
           </Card>
