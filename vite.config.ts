@@ -49,6 +49,9 @@ export default defineConfig({
     }),
   ],
   base: "/tracker",
+  define: {
+    "process.env.VERSION": JSON.stringify(process.env.VERSION || "dev"),
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
