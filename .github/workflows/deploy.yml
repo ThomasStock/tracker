@@ -25,7 +25,9 @@ jobs:
       - name: Calculate version
         id: version
         run: |
-          echo "VERSION=$(git describe --tags --always --dirty)" >> $GITHUB_ENV
+          COMMIT_COUNT=$(git rev-list --count main)
+          DATETIME=$(date '+%m%d.%H%M')
+          echo "VERSION=${COMMIT_COUNT}.${DATETIME}" >> $GITHUB_ENV
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v2

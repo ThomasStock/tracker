@@ -26,7 +26,7 @@ function App() {
           {openSettings ? <Edit className="h-5 w-5" /> : <Settings className="h-5 w-5" />}
           <span className="sr-only">Settings</span>
         </Button>
-        <span className="text-xs text-muted-foreground flex-1 text-center">{process.env.VERSION}</span>
+        <span className="text-xs text-muted-foreground">{process.env.VERSION}</span>
         <Button
           variant="ghost"
           onClick={() => {
