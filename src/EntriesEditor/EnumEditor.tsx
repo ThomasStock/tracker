@@ -17,8 +17,8 @@ export const EnumEditor: React.FC<EnumEditorProps> = ({ templateItem, value, set
       {templateItem.values.map((option) => (
         <div
           key={option}
-          className={`flex items-center space-x-3 rounded-lg border p-4 cursor-pointer hover:bg-accent ${
-            value === option ? "bg-accent" : ""
+          className={`flex items-center space-x-3 rounded-lg border p-4 cursor-pointer bg-[--color-accent] hover:bg-accent ${
+            value === option ? "border-primary" : "border-primary/50"
           }`}
           onClick={() => setValue(option)}
         >
