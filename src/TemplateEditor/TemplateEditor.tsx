@@ -7,7 +7,7 @@ import AddItemForm from "./AddItemForm";
 import { templateAtom, type TemplateItem } from "../store/templateAtom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Trash2, Plus } from "lucide-react";
+import { Trash2, Plus, Pencil } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -22,13 +22,9 @@ import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, Dr
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ReadOnlyItem from "./ReadOnlyItem";
-
-const typeLabels = {
-  range: "Numeric Range",
-  enum: "Single Choice",
-  time: "Time Picker",
-  tags: "Multiple Choice",
-} as const;
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { TemplateType } from "./TemplateType";
 
 const itemVariants = {
   hidden: {
@@ -71,6 +67,7 @@ export default function TemplateEditor() {
   const [isRemoving, setIsRemoving] = useState(false);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [isAddingTemplate, setIsAddingTemplate] = useState(false);
+  const [isTitleEditing, setIsTitleEditing] = useState(false);
   const isInitialMount = useRef(true);
 
   useEffect(() => {
@@ -87,8 +84,8 @@ export default function TemplateEditor() {
     }, 200);
   };
 
-  const editItem = (index: number, newItem: TemplateItem) => {
-    setTemplate((prev) => prev.map((t, i) => (i === index ? { ...newItem, readOnly: true } : t)));
+  const editItem = (index: number, updates: Partial<TemplateItem>) => {
+    setTemplate((prev) => prev.map((t, i) => (i === index ? { ...t, ...updates, readOnly: true } : t)));
   };
 
   const startEditing = (index: number) => {
@@ -137,11 +134,38 @@ export default function TemplateEditor() {
           {editingIndex !== null && (
             <div className="mx-auto w-full max-w-lg">
               <DrawerHeader className="text-left">
-                <div className="flex items-center justify-between">
-                  <DrawerTitle>{template[editingIndex].title}</DrawerTitle>
-                  <CardDescription className="text-xs rounded-md bg-muted px-2 py-0.5 whitespace-nowrap">
-                    {typeLabels[template[editingIndex].type.kind]}
-                  </CardDescription>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    {isTitleEditing ? (
+                      <div className="flex-1">
+                        <Label htmlFor="title" className="sr-only">
+                          Title
+                        </Label>
+                        <Input
+                          id="title"
+                          value={template[editingIndex].title}
+                          onChange={(e) => editItem(editingIndex, { title: e.target.value })}
+                          className="text-lg font-semibold"
+                          autoFocus
+                          onBlur={() => setIsTitleEditing(false)}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              setIsTitleEditing(false);
+                            }
+                          }}
+                        />
+                      </div>
+                    ) : (
+                      <>
+                        <DrawerTitle>{template[editingIndex].title}</DrawerTitle>
+                        <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full" onClick={() => setIsTitleEditing(true)}>
+                          <Pencil className="h-4 w-4" />
+                          <span className="sr-only">Edit title</span>
+                        </Button>
+                      </>
+                    )}
+                  </div>
+                  <TemplateType type={template[editingIndex].type.kind} />
                 </div>
                 <DrawerDescription></DrawerDescription>
               </DrawerHeader>
@@ -149,10 +173,7 @@ export default function TemplateEditor() {
                 {(() => {
                   const ItemComponent = ItemComponentMap[template[editingIndex].type.kind];
                   return template[editingIndex].type.kind !== "time" ? (
-                    <ItemComponent
-                      item={template[editingIndex].type as never}
-                      onChange={(type: any) => editItem(editingIndex, { ...template[editingIndex], type })}
-                    />
+                    <ItemComponent item={template[editingIndex].type as never} onChange={(type: any) => editItem(editingIndex, { type })} />
                   ) : null;
                 })()}
               </div>
@@ -208,12 +229,10 @@ export default function TemplateEditor() {
             className="relative"
           >
             <Card className={`overflow-hidden cursor-pointer hover:border-primary/50`} onClick={() => startEditing(index)}>
-              <CardHeader className="flex flex-row items-start justify-between pb-2">
-                <div className="flex flex-wrap items-center gap-2">
+              <CardHeader className="pb-2">
+                <div className="space-y-2">
                   <CardTitle className="text-base font-semibold break-words">{item.title}</CardTitle>
-                  <CardDescription className="text-xs rounded-md bg-muted px-2 py-0.5 whitespace-nowrap">
-                    {typeLabels[item.type.kind]}
-                  </CardDescription>
+                  <TemplateType type={item.type.kind} />
                 </div>
               </CardHeader>
               <CardContent>
