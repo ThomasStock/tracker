@@ -52,7 +52,7 @@ export default function EnumItem({ item, onChange }: TemplateItemProps<EnumTempl
         </div>
       ))}
       <Button onClick={addValue} variant="secondary" className="w-full">
-        Add Option
+        Add new option
       </Button>
     </div>
   );

@@ -7,7 +7,7 @@ import AddItemForm from "./AddItemForm";
 import { templateAtom, type TemplateItem } from "../store/templateAtom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { X } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,8 +18,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import ReadOnlyItem from "./ReadOnlyItem";
 
 const typeLabels = {
   range: "Numeric Range",
@@ -67,6 +69,7 @@ export default function TemplateEditor() {
   const [template, setTemplate] = useAtom(templateAtom);
   const [itemToRemove, setItemToRemove] = useState<number | null>(null);
   const [isRemoving, setIsRemoving] = useState(false);
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const isInitialMount = useRef(true);
 
   useEffect(() => {
@@ -75,20 +78,30 @@ export default function TemplateEditor() {
 
   const removeItem = (index: number) => {
     setIsRemoving(true);
-    // Wait for dialog to close before starting remove animation
     setTimeout(() => {
       setTemplate(template.filter((_, i) => i !== index));
       setItemToRemove(null);
+      setEditingIndex(null);
       setIsRemoving(false);
-    }, 200); // Match this with dialog close animation duration
+    }, 200);
   };
 
   const editItem = (index: number, newItem: TemplateItem) => {
-    setTemplate((prev) => prev.map((t, i) => (i === index ? newItem : t)));
+    setTemplate((prev) => prev.map((t, i) => (i === index ? { ...newItem, readOnly: true } : t)));
+  };
+
+  const startEditing = (index: number) => {
+    if (template[index].type.kind !== "time") {
+      setEditingIndex(index);
+    }
+  };
+
+  const stopEditing = () => {
+    setEditingIndex(null);
   };
 
   const addItem = (item: TemplateItem) => {
-    setTemplate((prev) => [...prev, item]);
+    setTemplate((prev) => [...prev, { ...item, readOnly: true }]);
   };
 
   return (
@@ -120,41 +133,80 @@ export default function TemplateEditor() {
         </AlertDialogContent>
       </AlertDialog>
 
-      <AnimatePresence mode="popLayout">
-        {template.map((item, index) => {
-          const ItemComponent = ItemComponentMap[item.type.kind];
-          return (
-            <motion.div
-              key={index}
-              variants={itemVariants}
-              initial={isInitialMount.current ? "visible" : "hidden"}
-              animate="visible"
-              exit={["exit", "exitHeight"]}
-              className="relative"
-            >
-              <Card className="overflow-hidden">
-                <CardHeader className="flex flex-row items-center justify-between pb-2">
-                  <div className="flex items-center gap-2">
-                    <CardTitle className="text-base font-semibold">{item.title}</CardTitle>
-                    <CardDescription className="text-xs rounded-md bg-muted px-2 py-0.5">{typeLabels[item.type.kind]}</CardDescription>
-                  </div>
+      <Drawer open={editingIndex !== null} onOpenChange={(open) => !open && stopEditing()}>
+        <DrawerContent>
+          {editingIndex !== null && (
+            <div className="mx-auto w-full max-w-lg">
+              <DrawerHeader className="text-left">
+                <div className="flex items-center justify-between">
+                  <DrawerTitle>{template[editingIndex].title}</DrawerTitle>
+                  <CardDescription className="text-xs rounded-md bg-muted px-2 py-0.5 whitespace-nowrap">
+                    {typeLabels[template[editingIndex].type.kind]}
+                  </CardDescription>
+                </div>
+                <DrawerDescription></DrawerDescription>
+              </DrawerHeader>
+              <div className="px-4 py-2">
+                {(() => {
+                  const ItemComponent = ItemComponentMap[template[editingIndex].type.kind];
+                  return (
+                    <ItemComponent
+                      item={template[editingIndex].type as never}
+                      onChange={(type: any) => editItem(editingIndex, { ...template[editingIndex], type })}
+                    />
+                  );
+                })()}
+              </div>
+              <DrawerFooter className="pt-2">
+                <div className="grid grid-cols-2 gap-2">
                   <Button
-                    onClick={() => setItemToRemove(index)}
                     variant="ghost"
-                    size="icon"
-                    className="h-8 w-8 rounded-full text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+                    onClick={() => setItemToRemove(editingIndex)}
+                    className="w-full text-destructive hover:text-destructive hover:bg-destructive/10"
                   >
-                    <X className="h-4 w-4" />
-                    <span className="sr-only">Remove item</span>
+                    <Trash2 className="h-4 w-4 mr-2" />
+                    Delete
                   </Button>
-                </CardHeader>
-                <CardContent>
-                  <ItemComponent item={item.type as never} onChange={(type: any) => editItem(index, { ...item, type })} />
-                </CardContent>
-              </Card>
-            </motion.div>
-          );
-        })}
+                  <DrawerClose asChild>
+                    <Button variant="outline" className="w-full">
+                      Done
+                    </Button>
+                  </DrawerClose>
+                </div>
+              </DrawerFooter>
+            </div>
+          )}
+        </DrawerContent>
+      </Drawer>
+
+      <AnimatePresence mode="popLayout">
+        {template.map((item, index) => (
+          <motion.div
+            key={index}
+            variants={itemVariants}
+            initial={isInitialMount.current ? "visible" : "hidden"}
+            animate="visible"
+            exit={["exit", "exitHeight"]}
+            className="relative"
+          >
+            <Card
+              className={`overflow-hidden ${item.type.kind !== "time" ? "cursor-pointer hover:border-primary/50" : ""}`}
+              onClick={() => startEditing(index)}
+            >
+              <CardHeader className="flex flex-row items-start justify-between pb-2">
+                <div className="flex flex-wrap items-center gap-2">
+                  <CardTitle className="text-base font-semibold break-words">{item.title}</CardTitle>
+                  <CardDescription className="text-xs rounded-md bg-muted px-2 py-0.5 whitespace-nowrap">
+                    {typeLabels[item.type.kind]}
+                  </CardDescription>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <ReadOnlyItem item={item} />
+              </CardContent>
+            </Card>
+          </motion.div>
+        ))}
       </AnimatePresence>
       <div className="mt-4">
         <AddItemForm addItem={addItem} />

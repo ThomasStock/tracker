@@ -47,7 +47,7 @@ export default function TagsItem({ item, onChange }: TemplateItemProps<TagsTempl
         </div>
       ))}
       <Button onClick={addTag} variant="secondary" className="w-full">
-        Add Tag
+        Add new option
       </Button>
     </div>
   );

@@ -30,6 +30,7 @@ export const templateSchema = v.array(
     id: v.number(),
     title: v.string(),
     type: v.variant("kind", [rangeSchema, tagsSchema, enumSchema, timeSchema]),
+    readOnly: v.boolean(),
   })
 );
 export type Template = v.InferOutput<typeof templateSchema>;
@@ -42,8 +43,9 @@ export const defaultTemplate: Template = [
     type: {
       kind: "range",
       min: 0,
-      max: 10,
+      max: 100,
     },
+    readOnly: true,
   },
   {
     id: 2,
@@ -52,6 +54,7 @@ export const defaultTemplate: Template = [
       kind: "enum",
       values: ["1 drink", "2 drinks", "3 or more drinks"],
     },
+    readOnly: true,
   },
   {
     id: 3,
@@ -59,6 +62,7 @@ export const defaultTemplate: Template = [
     type: {
       kind: "time",
     },
+    readOnly: true,
   },
   {
     id: 4,
@@ -67,6 +71,7 @@ export const defaultTemplate: Template = [
       kind: "tags",
       values: ["Minimal", "Gym", "Walk", "Running"],
     },
+    readOnly: true,
   },
 ];
 
