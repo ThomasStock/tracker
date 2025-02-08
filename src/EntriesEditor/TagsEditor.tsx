@@ -33,7 +33,7 @@ export const TagsEditor: React.FC<TagsEditorProps> = ({ templateItem, value, set
             e.stopPropagation();
           }}
         >
-          <Checkbox id={tag} checked={value?.includes(tag)} className="w-6 h-6" />
+          <Checkbox id={tag} checked={Array.isArray(value) && value.includes(tag)} className="w-6 h-6" />
           <span className="flex-1 text-base cursor-pointer">{tag}</span>
         </label>
       ))}

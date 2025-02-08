@@ -17,6 +17,18 @@ export const defaultEntries = {
         id: 3,
         value: "17:45",
       },
+      {
+        id: 4,
+        value: "Happy",
+      },
+      {
+        id: 5,
+        value: "10",
+      },
+      {
+        id: 8,
+        value: 8000,
+      },
     ],
   },
   templates: [
@@ -53,6 +65,52 @@ export const defaultEntries = {
       type: {
         kind: "tags",
         values: ["Minimal", "Gym", "Walk", "Running"],
+      },
+      readOnly: true,
+    },
+    {
+      id: 5,
+      title: "Mood",
+      type: {
+        kind: "range",
+        min: 1,
+        max: 10,
+      },
+      readOnly: true,
+    },
+    {
+      id: 6,
+      title: "Water intake",
+      type: {
+        kind: "enum",
+        values: ["not a lot", "normal amount", "a lot"],
+      },
+      readOnly: true,
+    },
+    {
+      id: 7,
+      title: "Last meal time",
+      type: {
+        kind: "time",
+      },
+      readOnly: true,
+    },
+    {
+      id: 8,
+      title: "Exercise type",
+      type: {
+        kind: "tags",
+        values: ["Yoga", "Running", "Cycling", "Swimming"],
+      },
+      readOnly: true,
+    },
+    {
+      id: 9,
+      title: "Steps count",
+      type: {
+        kind: "range",
+        min: 0,
+        max: 20000,
       },
       readOnly: true,
     },
