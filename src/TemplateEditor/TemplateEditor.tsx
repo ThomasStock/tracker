@@ -92,9 +92,7 @@ export default function TemplateEditor() {
   };
 
   const startEditing = (index: number) => {
-    if (template[index].type.kind !== "time") {
-      setEditingIndex(index);
-    }
+    setEditingIndex(index);
   };
 
   const stopEditing = () => {
@@ -145,17 +143,17 @@ export default function TemplateEditor() {
                     {typeLabels[template[editingIndex].type.kind]}
                   </CardDescription>
                 </div>
-                <DrawerDescription>Modify the template settings below</DrawerDescription>
+                <DrawerDescription></DrawerDescription>
               </DrawerHeader>
               <div className="px-4 py-2">
                 {(() => {
                   const ItemComponent = ItemComponentMap[template[editingIndex].type.kind];
-                  return (
+                  return template[editingIndex].type.kind !== "time" ? (
                     <ItemComponent
                       item={template[editingIndex].type as never}
                       onChange={(type: any) => editItem(editingIndex, { ...template[editingIndex], type })}
                     />
-                  );
+                  ) : null;
                 })()}
               </div>
               <DrawerFooter className="pt-2">
@@ -209,10 +207,7 @@ export default function TemplateEditor() {
             exit={["exit", "exitHeight"]}
             className="relative"
           >
-            <Card
-              className={`overflow-hidden ${item.type.kind !== "time" ? "cursor-pointer hover:border-primary/50" : ""}`}
-              onClick={() => startEditing(index)}
-            >
+            <Card className={`overflow-hidden cursor-pointer hover:border-primary/50`} onClick={() => startEditing(index)}>
               <CardHeader className="flex flex-row items-start justify-between pb-2">
                 <div className="flex flex-wrap items-center gap-2">
                   <CardTitle className="text-base font-semibold break-words">{item.title}</CardTitle>
