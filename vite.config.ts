@@ -16,6 +16,12 @@ export default defineConfig({
         theme_color: "#1e293b",
         background_color: "#0f172a",
         icons: [
+          {
+            src: "apple-touch-icon.png",
+            sizes: "180x180",
+            type: "image/png",
+            purpose: "apple touch",
+          },
           { purpose: "maskable", sizes: "512x512", src: "icon512_maskable.png", type: "image/png" },
           { purpose: "any", sizes: "512x512", src: "icon512_rounded.png", type: "image/png" },
         ],
