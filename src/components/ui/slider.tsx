@@ -9,7 +9,9 @@ const Slider = React.forwardRef<React.ElementRef<typeof SliderPrimitive.Root>, R
       <SliderPrimitive.Track className="relative h-1.5 w-full grow overflow-hidden rounded-full bg-primary/20">
         <SliderPrimitive.Range className="absolute h-full bg-primary" />
       </SliderPrimitive.Track>
-      <SliderPrimitive.Thumb className="block size-8 rounded-full border border-primary/50 bg-accent shadow transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50" />
+      <SliderPrimitive.Thumb className="block size-8 rounded-full border border-primary/50 bg-accent shadow transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 flex items-center justify-center">
+        <span className="text-xs text-center">{props.value}</span>
+      </SliderPrimitive.Thumb>
     </SliderPrimitive.Root>
   )
 );

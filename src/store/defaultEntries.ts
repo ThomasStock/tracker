@@ -26,7 +26,7 @@ export const defaultEntries = {
       type: {
         kind: "range",
         min: 0,
-        max: 100,
+        max: 10,
       },
       readOnly: true,
     },

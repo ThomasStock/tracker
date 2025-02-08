@@ -75,13 +75,13 @@ export default function TemplateEditor() {
   }, []);
 
   const removeItem = (index: number) => {
+    setEditingIndex(null);
     setIsRemoving(true);
     setTimeout(() => {
       setTemplate(template.filter((_, i) => i !== index));
       setItemToRemove(null);
-      setEditingIndex(null);
       setIsRemoving(false);
-    }, 200);
+    }, 400);
   };
 
   const editItem = (index: number, updates: Partial<TemplateItem>) => {
