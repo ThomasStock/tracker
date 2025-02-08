@@ -40,7 +40,6 @@ export const defaultEntries = {
         min: 0,
         max: 10,
       },
-      readOnly: true,
     },
     {
       id: 2,
@@ -49,7 +48,6 @@ export const defaultEntries = {
         kind: "enum",
         values: ["1 drink", "2 drinks", "3 or more drinks"],
       },
-      readOnly: true,
     },
     {
       id: 3,
@@ -57,7 +55,6 @@ export const defaultEntries = {
       type: {
         kind: "time",
       },
-      readOnly: true,
     },
     {
       id: 4,
@@ -66,7 +63,6 @@ export const defaultEntries = {
         kind: "tags",
         values: ["Minimal", "Gym", "Walk", "Running"],
       },
-      readOnly: true,
     },
     {
       id: 5,
@@ -76,7 +72,6 @@ export const defaultEntries = {
         min: 1,
         max: 10,
       },
-      readOnly: true,
     },
     {
       id: 6,
@@ -85,7 +80,6 @@ export const defaultEntries = {
         kind: "enum",
         values: ["not a lot", "normal amount", "a lot"],
       },
-      readOnly: true,
     },
     {
       id: 7,
@@ -93,7 +87,6 @@ export const defaultEntries = {
       type: {
         kind: "time",
       },
-      readOnly: true,
     },
     {
       id: 8,
@@ -102,7 +95,6 @@ export const defaultEntries = {
         kind: "tags",
         values: ["Yoga", "Running", "Cycling", "Swimming"],
       },
-      readOnly: true,
     },
     {
       id: 9,
@@ -112,7 +104,6 @@ export const defaultEntries = {
         min: 0,
         max: 20000,
       },
-      readOnly: true,
     },
   ] as Template,
 };

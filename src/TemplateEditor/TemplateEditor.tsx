@@ -85,7 +85,7 @@ export default function TemplateEditor() {
   };
 
   const editItem = (index: number, updates: Partial<TemplateItem>) => {
-    setTemplate((prev) => prev.map((t, i) => (i === index ? { ...t, ...updates, readOnly: true } : t)));
+    setTemplate((prev) => prev.map((t, i) => (i === index ? { ...t, ...updates } : t)));
   };
 
   const startEditing = (index: number) => {
@@ -97,7 +97,7 @@ export default function TemplateEditor() {
   };
 
   const addItem = (item: TemplateItem) => {
-    setTemplate((prev) => [...prev, { ...item, readOnly: true }]);
+    setTemplate((prev) => [...prev, item]);
   };
 
   return (
