@@ -7,7 +7,7 @@ import AddItemForm from "./AddItemForm";
 import { templateAtom, type TemplateItem } from "../store/templateAtom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Trash2 } from "lucide-react";
+import { Trash2, Plus } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -70,6 +70,7 @@ export default function TemplateEditor() {
   const [itemToRemove, setItemToRemove] = useState<number | null>(null);
   const [isRemoving, setIsRemoving] = useState(false);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [isAddingTemplate, setIsAddingTemplate] = useState(false);
   const isInitialMount = useRef(true);
 
   useEffect(() => {
@@ -144,7 +145,7 @@ export default function TemplateEditor() {
                     {typeLabels[template[editingIndex].type.kind]}
                   </CardDescription>
                 </div>
-                <DrawerDescription></DrawerDescription>
+                <DrawerDescription>Modify the template settings below</DrawerDescription>
               </DrawerHeader>
               <div className="px-4 py-2">
                 {(() => {
@@ -179,6 +180,25 @@ export default function TemplateEditor() {
         </DrawerContent>
       </Drawer>
 
+      <Drawer open={isAddingTemplate} onOpenChange={setIsAddingTemplate}>
+        <DrawerContent>
+          <div className="mx-auto w-full max-w-lg">
+            <DrawerHeader className="text-left">
+              <DrawerTitle>Add New Template</DrawerTitle>
+              <DrawerDescription></DrawerDescription>
+            </DrawerHeader>
+            <div className="px-4 py-2">
+              <AddItemForm
+                addItem={(item) => {
+                  addItem(item);
+                  setIsAddingTemplate(false);
+                }}
+              />
+            </div>
+          </div>
+        </DrawerContent>
+      </Drawer>
+
       <AnimatePresence mode="popLayout">
         {template.map((item, index) => (
           <motion.div
@@ -208,9 +228,11 @@ export default function TemplateEditor() {
           </motion.div>
         ))}
       </AnimatePresence>
-      <div className="mt-4">
-        <AddItemForm addItem={addItem} />
-      </div>
+
+      <Button size="icon" className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg" onClick={() => setIsAddingTemplate(true)}>
+        <Plus className="h-6 w-6" />
+        <span className="sr-only">Add new template</span>
+      </Button>
     </div>
   );
 }
