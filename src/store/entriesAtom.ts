@@ -1,7 +1,7 @@
 import { atomWithStorage } from "jotai/utils";
 import * as v from "valibot";
 import { templateSchema } from "./templateAtom";
-import { DateTime } from "luxon";
+import { defaultEntries } from "./defaultEntries";
 
 export const rangeValueSchema = v.number();
 export type RangeValue = v.InferOutput<typeof rangeValueSchema>;
@@ -25,19 +25,4 @@ export const entrySchema = v.array(
 export const entriesSchema = v.record(v.string(), templateSchema);
 export type Entries = v.InferOutput<typeof entriesSchema>;
 
-export const entriesAtom = atomWithStorage("entries", {
-  [DateTime.now().toISODate()]: [
-    {
-      id: 1,
-      value: 5,
-    },
-    {
-      id: 2,
-      value: "2 drinks",
-    },
-    {
-      id: 3,
-      value: DateTime.now().toISOTime(),
-    },
-  ],
-});
+export const entriesAtom = atomWithStorage("entries", defaultEntries.entries);
