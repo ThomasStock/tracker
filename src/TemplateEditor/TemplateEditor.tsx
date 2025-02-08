@@ -232,7 +232,6 @@ export default function TemplateEditor() {
               <CardHeader className="pb-2">
                 <div className="space-y-2">
                   <CardTitle className="text-base font-semibold break-words">{item.title}</CardTitle>
-                  <TemplateType type={item.type.kind} />
                 </div>
               </CardHeader>
               <CardContent>
