@@ -9,7 +9,7 @@ import { TimeEditor } from "./TimeEditor";
 import { useState } from "react";
 import { useSwipeable } from "react-swipeable";
 import { Button } from "@/components/ui/button";
-import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export const EntriesEditor = () => {
@@ -66,13 +66,21 @@ export const EntriesEditor = () => {
             const entry = entryValues.find((entry) => entry.id === templateItem.id);
             const ItemComponent = ItemComponentMap[templateItem.type.kind];
             return (
-              <div key={templateItem.id} className="space-y-3">
-                <CardTitle>{templateItem.title}</CardTitle>
-                <ItemComponent
-                  templateItem={templateItem.type as never}
-                  value={entry?.value as never}
-                  setValue={(newValue) => setEntryValue(templateItem.id, newValue)}
-                />
+              <div key={templateItem.id} className="relative">
+                <Card className="overflow-hidden cursor-pointer hover:border-primary/50">
+                  <CardHeader className="pb-2">
+                    <div className="space-y-2">
+                      <CardTitle className="text-base font-semibold break-words">{templateItem.title}</CardTitle>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <ItemComponent
+                      templateItem={templateItem.type as never}
+                      value={entry?.value as never}
+                      setValue={(newValue) => setEntryValue(templateItem.id, newValue)}
+                    />
+                  </CardContent>
+                </Card>
               </div>
             );
           })}
