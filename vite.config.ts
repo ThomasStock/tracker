@@ -12,4 +12,12 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, "index.html"),
+        serviceworker: path.resolve(__dirname, "src/serviceworker.ts"),
+      },
+    },
+  },
 });
