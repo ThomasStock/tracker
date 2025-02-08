@@ -19,7 +19,7 @@ export const defaultEntries = {
       },
       {
         id: 4,
-        value: "Happy",
+        value: [],
       },
       {
         id: 5,
@@ -27,7 +27,11 @@ export const defaultEntries = {
       },
       {
         id: 8,
-        value: 8000,
+        value: [],
+      },
+      {
+        id: 9,
+        value: 13000,
       },
     ],
   },
