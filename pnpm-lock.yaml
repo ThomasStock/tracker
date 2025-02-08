@@ -89,6 +89,9 @@ dependencies:
   vite-plugin-pwa:
     specifier: ^0.21.1
     version: 0.21.1(vite@6.0.5)(workbox-build@7.3.0)(workbox-window@7.3.0)
+  workbox-window:
+    specifier: ^7.3.0
+    version: 7.3.0
 
 devDependencies:
   '@eslint/js':
@@ -215,7 +218,7 @@ packages:
     resolution: {integrity: sha512-gv7320KBUFJz1RnylIg5WWYPRXKZ884AGkYpgpWW02TH66Dl+HaC1t1CKd0z3R4b6hdYEcmrNZHUmfCP+1u3/g==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.26.7
+      '@babel/types': 7.26.8
     dev: false
 
   /@babel/helper-compilation-targets@7.26.5:
@@ -240,7 +243,7 @@ packages:
       '@babel/helper-optimise-call-expression': 7.25.9
       '@babel/helper-replace-supers': 7.26.5(@babel/core@7.26.7)
       '@babel/helper-skip-transparent-expression-wrappers': 7.25.9
-      '@babel/traverse': 7.26.7
+      '@babel/traverse': 7.26.8
       semver: 6.3.1
     transitivePeerDependencies:
       - supports-color
@@ -277,8 +280,8 @@ packages:
     resolution: {integrity: sha512-wbfdZ9w5vk0C0oyHqAJbc62+vet5prjj01jjJ8sKn3j9h3MQQlflEdXYvuqRWjHnM12coDEqiC1IRCi0U/EKwQ==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/traverse': 7.26.7
-      '@babel/types': 7.26.7
+      '@babel/traverse': 7.26.8
+      '@babel/types': 7.26.8
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -309,7 +312,7 @@ packages:
     resolution: {integrity: sha512-FIpuNaz5ow8VyrYcnXQTDRGvV6tTjkNtCK/RYNDXGSLlUD6cBuQTSw43CShGxjvfBTfcUA/r6UhUCbtYqkhcuQ==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.26.7
+      '@babel/types': 7.26.8
     dev: false
 
   /@babel/helper-plugin-utils@7.26.5:
@@ -339,7 +342,7 @@ packages:
       '@babel/core': 7.26.7
       '@babel/helper-member-expression-to-functions': 7.25.9
       '@babel/helper-optimise-call-expression': 7.25.9
-      '@babel/traverse': 7.26.7
+      '@babel/traverse': 7.26.8
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -348,8 +351,8 @@ packages:
     resolution: {integrity: sha512-K4Du3BFa3gvyhzgPcntrkDgZzQaq6uozzcpGbOO1OEJaI+EJdqWIMTLgFgQf6lrfiDFo5FU+BxKepI9RmZqahA==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/traverse': 7.26.7
-      '@babel/types': 7.26.7
+      '@babel/traverse': 7.26.8
+      '@babel/types': 7.26.8
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -370,9 +373,9 @@ packages:
     resolution: {integrity: sha512-ETzz9UTjQSTmw39GboatdymDq4XIQbR8ySgVrylRhPOFpsd+JrKHIuF0de7GCWmem+T4uC5z7EZguod7Wj4A4g==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/template': 7.25.9
+      '@babel/template': 7.26.8
       '@babel/traverse': 7.26.8
-      '@babel/types': 7.26.7
+      '@babel/types': 7.26.8
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -407,7 +410,7 @@ packages:
     dependencies:
       '@babel/core': 7.26.7
       '@babel/helper-plugin-utils': 7.26.5
-      '@babel/traverse': 7.26.7
+      '@babel/traverse': 7.26.8
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -454,7 +457,7 @@ packages:
     dependencies:
       '@babel/core': 7.26.7
       '@babel/helper-plugin-utils': 7.26.5
-      '@babel/traverse': 7.26.7
+      '@babel/traverse': 7.26.8
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -594,7 +597,7 @@ packages:
       '@babel/helper-compilation-targets': 7.26.5
       '@babel/helper-plugin-utils': 7.26.5
       '@babel/helper-replace-supers': 7.26.5(@babel/core@7.26.7)
-      '@babel/traverse': 7.26.7
+      '@babel/traverse': 7.26.8
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
@@ -608,7 +611,7 @@ packages:
     dependencies:
       '@babel/core': 7.26.7
       '@babel/helper-plugin-utils': 7.26.5
-      '@babel/template': 7.25.9
+      '@babel/template': 7.26.8
     dev: false
 
   /@babel/plugin-transform-destructuring@7.25.9(@babel/core@7.26.7):
@@ -705,7 +708,7 @@ packages:
       '@babel/core': 7.26.7
       '@babel/helper-compilation-targets': 7.26.5
       '@babel/helper-plugin-utils': 7.26.5
-      '@babel/traverse': 7.26.7
+      '@babel/traverse': 7.26.8
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -786,7 +789,7 @@ packages:
       '@babel/helper-module-transforms': 7.26.0(@babel/core@7.26.7)
       '@babel/helper-plugin-utils': 7.26.5
       '@babel/helper-validator-identifier': 7.25.9
-      '@babel/traverse': 7.26.7
+      '@babel/traverse': 7.26.8
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -1175,7 +1178,7 @@ packages:
     dependencies:
       '@babel/core': 7.26.7
       '@babel/helper-plugin-utils': 7.26.5
-      '@babel/types': 7.26.7
+      '@babel/types': 7.26.8
       esutils: 2.0.3
     dev: false
 

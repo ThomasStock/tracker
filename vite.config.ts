@@ -13,20 +13,32 @@ export default defineConfig({
       registerType: "autoUpdate",
       includeAssets: ["favicon.ico", "apple-touch-icon.png", "mask-icon.svg"],
       manifest: {
-        name: "Tracker",
-        short_name: "Tracker",
-        theme_color: "#ffffff",
+        theme_color: "#1e293b",
+        background_color: "#0f172a",
         icons: [
+          { purpose: "maskable", sizes: "512x512", src: "icon512_maskable.png", type: "image/png" },
+          { purpose: "any", sizes: "512x512", src: "icon512_rounded.png", type: "image/png" },
+        ],
+        orientation: "portrait",
+        display: "standalone",
+        lang: "en",
+        name: "Sleep Stack",
+        short_name: "SleepStack",
+        start_url: "https://thomasstock.github.io/tracker/",
+        scope: "https://thomasstock.github.io/tracker/",
+        description: "Sleep tracker with AI analysis",
+        id: "https://thomasstock.github.io/tracker/",
+        screenshots: [
           {
-            src: "pwa-192x192.png",
-            sizes: "192x192",
-            type: "image/png",
+            src: "screenshot.jpg",
+            sizes: "1080x1920",
+            type: "image/jpeg",
           },
           {
-            src: "pwa-512x512.png",
-            sizes: "512x512",
-            type: "image/png",
-            purpose: "any maskable",
+            src: "screenshot.jpg",
+            sizes: "1080x1920",
+            type: "image/jpeg",
+            form_factor: "wide",
           },
         ],
       },
@@ -46,11 +58,6 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, "index.html"),
-      },
-      output: {
-        entryFileNames: (assetInfo) => {
-          return assetInfo.name === "serviceworker" ? "[name].js" : "assets/[name]-[hash].js";
-        },
       },
     },
   },
