@@ -11,11 +11,18 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as TemplateCreateImport } from './routes/template-create'
 import { Route as SettingsImport } from './routes/settings'
 import { Route as IndexImport } from './routes/index'
 import { Route as TemplateEditIndexImport } from './routes/template-edit.$index'
 
 // Create/Update Routes
+
+const TemplateCreateRoute = TemplateCreateImport.update({
+  id: '/template-create',
+  path: '/template-create',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const SettingsRoute = SettingsImport.update({
   id: '/settings',
@@ -53,6 +60,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsImport
       parentRoute: typeof rootRoute
     }
+    '/template-create': {
+      id: '/template-create'
+      path: '/template-create'
+      fullPath: '/template-create'
+      preLoaderRoute: typeof TemplateCreateImport
+      parentRoute: typeof rootRoute
+    }
     '/template-edit/$index': {
       id: '/template-edit/$index'
       path: '/template-edit/$index'
@@ -68,12 +82,14 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/settings': typeof SettingsRoute
+  '/template-create': typeof TemplateCreateRoute
   '/template-edit/$index': typeof TemplateEditIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/settings': typeof SettingsRoute
+  '/template-create': typeof TemplateCreateRoute
   '/template-edit/$index': typeof TemplateEditIndexRoute
 }
 
@@ -81,27 +97,35 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/settings': typeof SettingsRoute
+  '/template-create': typeof TemplateCreateRoute
   '/template-edit/$index': typeof TemplateEditIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/settings' | '/template-edit/$index'
+  fullPaths: '/' | '/settings' | '/template-create' | '/template-edit/$index'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/settings' | '/template-edit/$index'
-  id: '__root__' | '/' | '/settings' | '/template-edit/$index'
+  to: '/' | '/settings' | '/template-create' | '/template-edit/$index'
+  id:
+    | '__root__'
+    | '/'
+    | '/settings'
+    | '/template-create'
+    | '/template-edit/$index'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SettingsRoute: typeof SettingsRoute
+  TemplateCreateRoute: typeof TemplateCreateRoute
   TemplateEditIndexRoute: typeof TemplateEditIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SettingsRoute: SettingsRoute,
+  TemplateCreateRoute: TemplateCreateRoute,
   TemplateEditIndexRoute: TemplateEditIndexRoute,
 }
 
@@ -117,6 +141,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/settings",
+        "/template-create",
         "/template-edit/$index"
       ]
     },
@@ -125,6 +150,9 @@ export const routeTree = rootRoute
     },
     "/settings": {
       "filePath": "settings.tsx"
+    },
+    "/template-create": {
+      "filePath": "template-create.tsx"
     },
     "/template-edit/$index": {
       "filePath": "template-edit.$index.tsx"

@@ -1,14 +1,12 @@
 import { useAtom } from "jotai";
-import AddItemForm from "./AddItemForm";
 import { templateAtom, type TemplateItem } from "../store/templateAtom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Plus } from "lucide-react";
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription } from "@/components/ui/drawer";
-import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ReadOnlyItem from "./ReadOnlyItem";
 import { Link } from "@tanstack/react-router";
+import { useState, useRef, useEffect } from "react";
 
 const itemVariants = {
   hidden: {
@@ -46,39 +44,15 @@ const itemVariants = {
 };
 
 export default function TemplateEditor() {
-  const [template, setTemplate] = useAtom(templateAtom);
-  const [isAddingTemplate, setIsAddingTemplate] = useState(false);
+  const [template] = useAtom(templateAtom);
   const isInitialMount = useRef(true);
 
   useEffect(() => {
     isInitialMount.current = false;
   }, []);
 
-  const addItem = (item: TemplateItem) => {
-    setTemplate((prev) => [...prev, item]);
-  };
-
   return (
     <div className="pb-8">
-      <Drawer open={isAddingTemplate} onOpenChange={setIsAddingTemplate}>
-        <DrawerContent>
-          <div className="mx-auto w-full max-w-lg">
-            <DrawerHeader className="text-left">
-              <DrawerTitle>Add New Template</DrawerTitle>
-              <DrawerDescription></DrawerDescription>
-            </DrawerHeader>
-            <div className="px-4 py-2">
-              <AddItemForm
-                addItem={(item) => {
-                  addItem(item);
-                  setIsAddingTemplate(false);
-                }}
-              />
-            </div>
-          </div>
-        </DrawerContent>
-      </Drawer>
-
       <AnimatePresence mode="popLayout">
         {template.map((item, index) => (
           <motion.div
@@ -105,10 +79,12 @@ export default function TemplateEditor() {
         ))}
       </AnimatePresence>
 
-      <Button size="icon" className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg" onClick={() => setIsAddingTemplate(true)}>
-        <Plus className="h-6 w-6" />
-        <span className="sr-only">Add new template</span>
-      </Button>
+      <Link to="/template-create">
+        <Button size="icon" className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg">
+          <Plus className="h-6 w-6" />
+          <span className="sr-only">Add new template</span>
+        </Button>
+      </Link>
     </div>
   );
 }

@@ -1,15 +1,16 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useAtom } from "jotai";
 import { templateAtom, type TemplateItem } from "../store/templateAtom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { ChevronLeft, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { useState } from "react";
 import RangeItem from "../TemplateEditor/RangeItem";
 import EnumItem from "../TemplateEditor/EnumItem";
 import TimeItem from "../TemplateEditor/TimeItem";
 import TagsItem from "../TemplateEditor/TagsItem";
+import { BackButton } from "@/components/ui/back-button";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -58,12 +59,7 @@ function TemplateEditPage() {
       <div className="container max-w-2xl px-4 py-6">
         <header className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
-            <Link to="/">
-              <Button variant="ghost" size="icon" className="rounded-full hover:bg-secondary" onClick={() => window.history.back()}>
-                <ChevronLeft className="h-5 w-5" />
-                <span className="sr-only">Back</span>
-              </Button>
-            </Link>
+            <BackButton />
             <h1 className="text-2xl font-semibold tracking-tight">Edit Template Item</h1>
           </div>
         </header>

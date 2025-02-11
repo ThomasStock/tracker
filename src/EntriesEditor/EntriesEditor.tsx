@@ -11,12 +11,13 @@ import { useSwipeable } from "react-swipeable";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export const EntriesEditor = () => {
   const [entries, setEntries] = useAtom(entriesAtom);
   const template = useAtomValue(templateAtom);
-
   const [selectedDate, setSelectedDate] = useState(DateTime.now());
+  const [swipeDirection, setSwipeDirection] = useState<1 | -1>(1);
 
   const entryValues = entries[selectedDate.toISODate()] ?? [];
 
@@ -31,10 +32,12 @@ export const EntriesEditor = () => {
   };
 
   const goBack = () => {
+    setSwipeDirection(-1);
     setSelectedDate(selectedDate.minus({ days: 1 }));
   };
 
   const goForward = () => {
+    setSwipeDirection(1);
     setSelectedDate(selectedDate.plus({ days: 1 }));
   };
 
@@ -42,6 +45,21 @@ export const EntriesEditor = () => {
     onSwipedLeft: goForward,
     onSwipedRight: goBack,
   });
+
+  const variants = {
+    enter: (direction: number) => ({
+      x: direction > 0 ? "100%" : "-100%",
+      opacity: 0,
+    }),
+    center: {
+      x: 0,
+      opacity: 1,
+    },
+    exit: (direction: number) => ({
+      x: direction > 0 ? "-100%" : "100%",
+      opacity: 0,
+    }),
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -61,30 +79,42 @@ export const EntriesEditor = () => {
             </Button>
           </div>
         </CardHeader>
-        <CardContent className="space-y-6 px-2">
-          {template.map((templateItem) => {
-            const entry = entryValues.find((entry) => entry.id === templateItem.id);
-            const ItemComponent = ItemComponentMap[templateItem.type.kind];
-            return (
-              <div key={templateItem.id} className="relative">
-                <Card className="overflow-hidden cursor-pointer hover:border-primary/50">
-                  <CardHeader className="pb-2">
-                    <div className="space-y-2">
-                      <CardTitle className="text-base font-semibold break-words">{templateItem.title}</CardTitle>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <ItemComponent
-                      templateItem={templateItem.type as never}
-                      value={entry?.value as never}
-                      setValue={(newValue) => setEntryValue(templateItem.id, newValue)}
-                    />
-                  </CardContent>
-                </Card>
-              </div>
-            );
-          })}
-        </CardContent>
+        <AnimatePresence mode="popLayout" initial={false} custom={swipeDirection}>
+          <motion.div
+            key={selectedDate.toISODate()}
+            custom={swipeDirection}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+          >
+            <CardContent className="space-y-6 px-2">
+              {template.map((templateItem) => {
+                const entry = entryValues.find((entry) => entry.id === templateItem.id);
+                const ItemComponent = ItemComponentMap[templateItem.type.kind];
+                return (
+                  <div key={templateItem.id} className="relative">
+                    <Card className="overflow-hidden cursor-pointer hover:border-primary/50">
+                      <CardHeader className="pb-2">
+                        <div className="space-y-2">
+                          <CardTitle className="text-base font-semibold break-words">{templateItem.title}</CardTitle>
+                        </div>
+                      </CardHeader>
+                      <CardContent>
+                        <ItemComponent
+                          templateItem={templateItem.type as never}
+                          value={entry?.value as never}
+                          setValue={(newValue) => setEntryValue(templateItem.id, newValue)}
+                        />
+                      </CardContent>
+                    </Card>
+                  </div>
+                );
+              })}
+            </CardContent>
+          </motion.div>
+        </AnimatePresence>
       </div>
     </div>
   );

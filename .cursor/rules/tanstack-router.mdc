@@ -1,0 +1,9 @@
+---
+description: tanstack router rules
+globs: routes/**/*.tsx
+---
+
+Assume there is a vite plugin running that will update routTree.gen.ts when you save files that create new routes.
+When saving a file with tanstack router's `createFileRoute` in it, the vite plugin will update routeTree.gen.ts.
+So there is no need to update routeTree.gen.ts, the vite plugin will do it.
+Ignore linting errors about createFileRoute's parameter. The linting error will disappear after a while.
