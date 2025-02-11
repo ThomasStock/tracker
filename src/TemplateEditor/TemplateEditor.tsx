@@ -1,12 +1,12 @@
 import { useAtom } from "jotai";
-import { templateAtom, type TemplateItem } from "../store/templateAtom";
+import { templateAtom } from "../store/templateAtom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Plus } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ReadOnlyItem from "./ReadOnlyItem";
 import { Link } from "@tanstack/react-router";
-import { useState, useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 
 const itemVariants = {
   hidden: {
