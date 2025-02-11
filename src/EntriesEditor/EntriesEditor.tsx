@@ -12,12 +12,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
 
 export const EntriesEditor = () => {
   const [entries, setEntries] = useAtom(entriesAtom);
   const template = useAtomValue(templateAtom);
   const [selectedDate, setSelectedDate] = useState(DateTime.now());
   const [swipeDirection, setSwipeDirection] = useState<1 | -1>(1);
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
   const entryValues = entries[selectedDate.toISODate()] ?? [];
 
@@ -70,10 +73,52 @@ export const EntriesEditor = () => {
               <ChevronLeft className="!size-6" />
               <span className="sr-only">Previous day</span>
             </Button>
-            <div className="text-center">
-              <div className="text-xl font-semibold">{selectedDate.toLocaleString(DateTime.DATE_FULL)}</div>
-            </div>
-            <Button variant="ghost" onClick={goForward}>
+            <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
+              <PopoverTrigger asChild>
+                <Button variant="ghost" className="font-semibold text-xl h-auto py-2">
+                  <div className="flex flex-col items-center">
+                    <div>{selectedDate.toLocaleString(DateTime.DATE_FULL)}</div>
+                    <div className="text-sm font-normal text-muted-foreground">
+                      {(() => {
+                        const now = DateTime.now().startOf("day");
+                        const date = selectedDate.startOf("day");
+                        if (date.hasSame(now, "day")) return "Today";
+                        if (date.hasSame(now.minus({ days: 1 }), "day")) return "Yesterday";
+                        if (date.hasSame(now.plus({ days: 1 }), "day")) return "Tomorrow";
+
+                        const diff = date.diff(now, ["months", "weeks", "days"]);
+                        const months = Math.floor(Math.abs(diff.months));
+                        const weeks = Math.floor(Math.abs(diff.weeks));
+                        const days = Math.floor(Math.abs(diff.days));
+
+                        const isFuture = date > now;
+                        const prefix = isFuture ? "in " : "";
+                        const suffix = isFuture ? "" : " ago";
+
+                        if (months > 0) {
+                          return `${prefix}${months} month${months === 1 ? "" : "s"}${suffix}`;
+                        }
+                        if (weeks > 0) {
+                          return `${prefix}${weeks} week${weeks === 1 ? "" : "s"}${suffix}`;
+                        }
+                        return `${prefix}${days} day${days === 1 ? "" : "s"}${suffix}`;
+                      })()}
+                    </div>
+                  </div>
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="center">
+                <Calendar
+                  value={selectedDate}
+                  onChange={(date) => {
+                    setSwipeDirection(date < selectedDate ? -1 : 1);
+                    setSelectedDate(date);
+                    setIsCalendarOpen(false);
+                  }}
+                />
+              </PopoverContent>
+            </Popover>
+            <Button variant="ghost" size="icon" onClick={goForward}>
               <ChevronRight className="!size-6" />
               <span className="sr-only">Next day</span>
             </Button>
