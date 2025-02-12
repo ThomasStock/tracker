@@ -80,7 +80,7 @@ export default function TemplateEditor() {
           </Button>
         }
       />
-      <StickyHeader paddingClassName="px-4 py-6">
+      <StickyHeader>
         <h1 className="text-2xl font-semibold tracking-tight text-center">Templates</h1>
       </StickyHeader>
 

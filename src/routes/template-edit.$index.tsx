@@ -57,7 +57,7 @@ function TemplateEditPage() {
 
   return (
     <>
-      <StickyHeader paddingClassName="px-4 py-6">
+      <StickyHeader>
         <div className="flex items-center gap-3">
           <BackButton />
           <h1 className="text-2xl font-semibold tracking-tight truncate">{item.title}</h1>
