@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import TemplateEditor from "../TemplateEditor/TemplateEditor";
 import { PageLayout } from "../layouts/PageLayout";
 
