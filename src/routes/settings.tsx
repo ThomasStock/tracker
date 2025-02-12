@@ -8,6 +8,7 @@ import { useAtom } from "jotai";
 import { entriesAtom } from "../store/entriesAtom";
 import { templateAtom } from "../store/templateAtom";
 import { defaultEntries } from "../store/defaultEntries";
+import { StickyHeader } from "@/components/ui/sticky-header";
 
 export const Route = createFileRoute("/settings")({
   component: Settings,
@@ -40,9 +41,6 @@ function Settings() {
           </Button>
         }
       />
-      <div className="sticky top-0 bg-background z-20 text-center border-b pb-4 mb-4 pt-6">
-        <h1 className="text-xl font-semibold">Edit Template</h1>
-      </div>
       <TemplateEditor />
     </PageLayout>
   );

@@ -14,6 +14,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
+import { StickyHeader } from "@/components/ui/sticky-header";
 
 export const EntriesEditor = () => {
   const [entries, setEntries] = useAtom(entriesAtom);
@@ -67,7 +68,7 @@ export const EntriesEditor = () => {
   return (
     <div className="min-h-screen bg-background">
       <div className="mx-auto max-w-xl">
-        <CardHeader {...handlers} className="space-y-4 px-2 sticky top-0 bg-background z-20 pb-4 pt-6 border-b mb-4">
+        <StickyHeader {...handlers}>
           <div className="flex items-center justify-between gap-4">
             <Button variant="ghost" size="icon" onClick={goBack}>
               <ChevronLeft className="!size-6" />
@@ -123,7 +124,7 @@ export const EntriesEditor = () => {
               <span className="sr-only">Next day</span>
             </Button>
           </div>
-        </CardHeader>
+        </StickyHeader>
         <AnimatePresence mode="popLayout" initial={false} custom={swipeDirection}>
           <motion.div
             key={selectedDate.toISODate()}

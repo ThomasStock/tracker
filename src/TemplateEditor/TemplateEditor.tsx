@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import ReadOnlyItem from "./ReadOnlyItem";
 import { Link } from "@tanstack/react-router";
 import { useRef, useEffect } from "react";
+import { StickyHeader } from "@/components/ui/sticky-header";
 
 const itemVariants = {
   hidden: {
@@ -53,38 +54,44 @@ export default function TemplateEditor() {
 
   return (
     <div className="pb-8">
-      <AnimatePresence mode="popLayout">
-        {template.map((item, index) => (
-          <motion.div
-            key={index}
-            variants={itemVariants}
-            initial={isInitialMount.current ? "visible" : "hidden"}
-            animate="visible"
-            exit={["exit", "exitHeight"]}
-            className="relative"
-          >
-            <Link to="/template-edit/$index" params={{ index }} className="block">
-              <Card className={`overflow-hidden cursor-pointer hover:border-primary/50`}>
-                <CardHeader className="pb-2">
-                  <div className="space-y-2">
-                    <CardTitle className="text-base font-semibold break-words">{item.title}</CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <ReadOnlyItem item={item} />
-                </CardContent>
-              </Card>
-            </Link>
-          </motion.div>
-        ))}
-      </AnimatePresence>
+      <StickyHeader paddingClassName="px-4 py-6">
+        <h1 className="text-2xl font-semibold tracking-tight text-center">Templates</h1>
+      </StickyHeader>
 
-      <Link to="/template-create">
-        <Button size="icon" className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg">
-          <Plus className="h-6 w-6" />
-          <span className="sr-only">Add new template</span>
-        </Button>
-      </Link>
+      <div className="px-4">
+        <AnimatePresence mode="popLayout">
+          {template.map((item, index) => (
+            <motion.div
+              key={index}
+              variants={itemVariants}
+              initial={isInitialMount.current ? "visible" : "hidden"}
+              animate="visible"
+              exit={["exit", "exitHeight"]}
+              className="relative"
+            >
+              <Link to="/template-edit/$index" params={{ index }} className="block">
+                <Card className={`overflow-hidden cursor-pointer hover:border-primary/50`}>
+                  <CardHeader className="pb-2">
+                    <div className="space-y-2">
+                      <CardTitle className="text-base font-semibold break-words">{item.title}</CardTitle>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <ReadOnlyItem item={item} />
+                  </CardContent>
+                </Card>
+              </Link>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+
+        <Link to="/template-create">
+          <Button size="icon" className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg">
+            <Plus className="h-6 w-6" />
+            <span className="sr-only">Add new template</span>
+          </Button>
+        </Link>
+      </div>
     </div>
   );
 }
