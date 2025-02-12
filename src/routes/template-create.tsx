@@ -58,68 +58,60 @@ function TemplateCreatePage() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container max-w-2xl">
-        <StickyHeader paddingClassName="px-4 py-6">
-          <div className="flex items-center gap-3">
-            <BackButton />
-            <h1 className="text-2xl font-semibold tracking-tight">Create Template Item</h1>
-          </div>
-        </StickyHeader>
+    <>
+      <StickyHeader paddingClassName="px-4 py-6">
+        <div className="flex items-center gap-3">
+          <BackButton />
+          <h1 className="text-2xl font-semibold tracking-tight">Create Template Item</h1>
+        </div>
+      </StickyHeader>
 
-        <div className="px-4">
-          <Card className="border-border/40 shadow-sm">
-            <CardContent className="pt-6 space-y-4">
-              <div className="space-y-3">
-                <Input
-                  id="title"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  className="text-lg"
-                  placeholder="Template Title"
-                />
-              </div>
+      <div className="px-4">
+        <Card className="border-border/40 shadow-sm">
+          <CardContent className="pt-6 space-y-4">
+            <div className="space-y-3">
+              <Input id="title" value={title} onChange={(e) => setTitle(e.target.value)} className="text-lg" placeholder="Template Title" />
+            </div>
 
-              <div className="space-y-4">
-                <Select value={selectedType} onValueChange={(value) => handleTypeChange(value as TemplateType)}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select template type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="range">Range</SelectItem>
-                    <SelectItem value="enum">Multiple Choice</SelectItem>
-                    <SelectItem value="tags">Tags</SelectItem>
-                    <SelectItem value="time">Time</SelectItem>
-                  </SelectContent>
-                </Select>
+            <div className="space-y-4">
+              <Select value={selectedType} onValueChange={(value) => handleTypeChange(value as TemplateType)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select template type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="range">Range</SelectItem>
+                  <SelectItem value="enum">Multiple Choice</SelectItem>
+                  <SelectItem value="tags">Tags</SelectItem>
+                  <SelectItem value="time">Time</SelectItem>
+                </SelectContent>
+              </Select>
 
-                {typeConfig && (
-                  <div className="space-y-6">
-                    {typeConfig.kind === "range" ? (
-                      <RangeItem item={typeConfig} onChange={setTypeConfig} />
-                    ) : typeConfig.kind === "enum" ? (
-                      <EnumItem item={typeConfig} onChange={setTypeConfig} />
-                    ) : typeConfig.kind === "tags" ? (
-                      <TagsItem item={typeConfig} onChange={setTypeConfig} />
-                    ) : typeConfig.kind === "time" ? (
-                      <TimeItem item={typeConfig} onChange={setTypeConfig} />
-                    ) : null}
-                  </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
+              {typeConfig && (
+                <div className="space-y-6">
+                  {typeConfig.kind === "range" ? (
+                    <RangeItem item={typeConfig} onChange={setTypeConfig} />
+                  ) : typeConfig.kind === "enum" ? (
+                    <EnumItem item={typeConfig} onChange={setTypeConfig} />
+                  ) : typeConfig.kind === "tags" ? (
+                    <TagsItem item={typeConfig} onChange={setTypeConfig} />
+                  ) : typeConfig.kind === "time" ? (
+                    <TimeItem item={typeConfig} onChange={setTypeConfig} />
+                  ) : null}
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
 
-          <div className="mt-6 flex gap-3">
-            <Button variant="outline" onClick={() => window.history.back()} className="flex-1">
-              Cancel
-            </Button>
-            <Button onClick={handleCreate} className="flex-1" disabled={!title || !typeConfig}>
-              Create
-            </Button>
-          </div>
+        <div className="mt-6 flex gap-3">
+          <Button variant="outline" onClick={() => window.history.back()} className="flex-1">
+            Cancel
+          </Button>
+          <Button onClick={handleCreate} className="flex-1" disabled={!title || !typeConfig}>
+            Create
+          </Button>
         </div>
       </div>
-    </div>
+    </>
   );
 }

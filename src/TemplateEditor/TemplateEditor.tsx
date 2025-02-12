@@ -2,12 +2,15 @@ import { useAtom } from "jotai";
 import { templateAtom } from "../store/templateAtom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Plus } from "lucide-react";
+import { Plus, Edit } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ReadOnlyItem from "./ReadOnlyItem";
 import { Link } from "@tanstack/react-router";
 import { useRef, useEffect } from "react";
 import { StickyHeader } from "@/components/ui/sticky-header";
+import { Header } from "@/components/ui/header";
+import { entriesAtom } from "../store/entriesAtom";
+import { defaultEntries } from "../store/defaultEntries";
 
 const itemVariants = {
   hidden: {
@@ -46,6 +49,8 @@ const itemVariants = {
 
 export default function TemplateEditor() {
   const [template] = useAtom(templateAtom);
+  const [, setEntries] = useAtom(entriesAtom);
+  const [, setTemplate] = useAtom(templateAtom);
   const isInitialMount = useRef(true);
 
   useEffect(() => {
@@ -53,7 +58,28 @@ export default function TemplateEditor() {
   }, []);
 
   return (
-    <div className="pb-8">
+    <>
+      <Header
+        leftButton={
+          <Link to="/">
+            <Button variant="ghost" size="icon">
+              <Edit className="h-5 w-5" />
+              <span className="sr-only">Back to Editor</span>
+            </Button>
+          </Link>
+        }
+        rightButton={
+          <Button
+            variant="ghost"
+            onClick={() => {
+              setTemplate(defaultEntries.templates);
+              setEntries(defaultEntries.entries);
+            }}
+          >
+            Reset
+          </Button>
+        }
+      />
       <StickyHeader paddingClassName="px-4 py-6">
         <h1 className="text-2xl font-semibold tracking-tight text-center">Templates</h1>
       </StickyHeader>
@@ -92,6 +118,6 @@ export default function TemplateEditor() {
           </Button>
         </Link>
       </div>
-    </div>
+    </>
   );
 }

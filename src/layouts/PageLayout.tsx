@@ -5,5 +5,5 @@ interface PageLayoutProps {
 }
 
 export function PageLayout({ children }: PageLayoutProps) {
-  return <div className="min-h-screen bg-background p-4">{children}</div>;
+  return <div className="min-h-screen bg-background">{children}</div>;
 }
