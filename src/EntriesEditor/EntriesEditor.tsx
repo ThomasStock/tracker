@@ -14,8 +14,7 @@ import { ChevronLeft, ChevronRight, Settings } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
-import { StickyHeader } from "@/components/ui/sticky-header";
-import { Header } from "@/components/ui/header";
+import { Footer } from "@/components/ui/footer";
 import { Link } from "@tanstack/react-router";
 
 export const EntriesEditor = () => {
@@ -69,16 +68,51 @@ export const EntriesEditor = () => {
 
   return (
     <>
-      <Header
-        leftButton={
-          <Link to="/settings">
-            <Button variant="ghost" size="icon">
-              <Settings className="size-4" />
-              <span className="sr-only">Settings</span>
-            </Button>
-          </Link>
-        }
-      >
+      <AnimatePresence mode="popLayout" initial={false} custom={swipeDirection}>
+        <motion.div
+          key={selectedDate.toISODate()}
+          custom={swipeDirection}
+          variants={variants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        >
+          <CardContent className="space-y-6 px-2 pb-32">
+            {template.map((templateItem) => {
+              const entry = entryValues.find((entry) => entry.id === templateItem.id);
+              const ItemComponent = ItemComponentMap[templateItem.type.kind];
+              return (
+                <div key={templateItem.id} className="relative">
+                  <Card className="overflow-hidden cursor-pointer hover:border-primary/50">
+                    <CardHeader className="pb-2">
+                      <div className="space-y-2">
+                        <CardTitle className="text-base font-semibold break-words">{templateItem.title}</CardTitle>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <ItemComponent
+                        templateItem={templateItem.type as never}
+                        value={entry?.value as never}
+                        setValue={(newValue) => setEntryValue(templateItem.id, newValue)}
+                      />
+                    </CardContent>
+                  </Card>
+                </div>
+              );
+            })}
+          </CardContent>
+        </motion.div>
+      </AnimatePresence>
+      {/* 
+      <Link to="/settings">
+        <Button variant="ghost" size="icon">
+          <Settings className="size-4" />
+          <span className="sr-only">Settings</span>
+        </Button>
+      </Link> */}
+
+      <Footer>
         <div {...handlers}>
           <div className="flex items-center justify-between gap-4">
             <Button variant="ghost" size="icon" onClick={goBack}>
@@ -136,44 +170,7 @@ export const EntriesEditor = () => {
             </Button>
           </div>
         </div>
-      </Header>
-
-      <AnimatePresence mode="popLayout" initial={false} custom={swipeDirection}>
-        <motion.div
-          key={selectedDate.toISODate()}
-          custom={swipeDirection}
-          variants={variants}
-          initial="enter"
-          animate="center"
-          exit="exit"
-          transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        >
-          <CardContent className="space-y-6 px-2">
-            {template.map((templateItem) => {
-              const entry = entryValues.find((entry) => entry.id === templateItem.id);
-              const ItemComponent = ItemComponentMap[templateItem.type.kind];
-              return (
-                <div key={templateItem.id} className="relative">
-                  <Card className="overflow-hidden cursor-pointer hover:border-primary/50">
-                    <CardHeader className="pb-2">
-                      <div className="space-y-2">
-                        <CardTitle className="text-base font-semibold break-words">{templateItem.title}</CardTitle>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <ItemComponent
-                        templateItem={templateItem.type as never}
-                        value={entry?.value as never}
-                        setValue={(newValue) => setEntryValue(templateItem.id, newValue)}
-                      />
-                    </CardContent>
-                  </Card>
-                </div>
-              );
-            })}
-          </CardContent>
-        </motion.div>
-      </AnimatePresence>
+      </Footer>
     </>
   );
 };
