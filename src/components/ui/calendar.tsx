@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { DateTime } from "luxon";
 import { Button } from "./button";
 import { cn } from "@/lib/utils";
+import { useState, useMemo } from "react";
 
 interface CalendarProps {
   value: DateTime;
@@ -10,12 +11,14 @@ interface CalendarProps {
 }
 
 export function Calendar({ value, onChange }: CalendarProps) {
-  const [viewedMonth, setViewedMonth] = React.useState(value.startOf("month"));
-  const today = React.useMemo(() => DateTime.now(), []);
+  const today = DateTime.now().startOf("day");
+  const [viewedMonth, setViewedMonth] = useState(value.startOf("month"));
+  const isToday = value.hasSame(today, "day");
 
-  const days = React.useMemo(() => {
+  const days = useMemo(() => {
     const start = viewedMonth.startOf("month").startOf("week");
     const end = viewedMonth.endOf("month").endOf("week");
+
     const days: DateTime[] = [];
     let day = start;
     while (day <= end) {
@@ -25,57 +28,49 @@ export function Calendar({ value, onChange }: CalendarProps) {
     return days;
   }, [viewedMonth]);
 
-  const weekDays = React.useMemo(() => ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"], []);
-
   const handleTodayClick = () => {
     setViewedMonth(today.startOf("month"));
     onChange(today);
   };
 
   return (
-    <div className="w-full p-3">
-      <div className="flex items-center justify-between mb-4">
+    <div className="space-y-4">
+      <div className="flex justify-between items-center">
         <Button variant="ghost" size="icon" onClick={() => setViewedMonth(viewedMonth.minus({ months: 1 }))}>
-          <ChevronLeft className="h-4 w-4" />
-          <span className="sr-only">Previous month</span>
+          <ChevronLeft className="!size-6" />
         </Button>
         <div className="flex flex-col items-center gap-1">
           <div className="font-semibold">{viewedMonth.toLocaleString({ month: "long", year: "numeric" })}</div>
-          <Button variant="ghost" size="sm" onClick={handleTodayClick} className="h-6 text-xs">
-            Today
-          </Button>
+          {!isToday && (
+            <Button variant="outline" size="sm" onClick={handleTodayClick} className="h-6 text-xs">
+              Today
+            </Button>
+          )}
         </div>
         <Button variant="ghost" size="icon" onClick={() => setViewedMonth(viewedMonth.plus({ months: 1 }))}>
-          <ChevronRight className="h-4 w-4" />
-          <span className="sr-only">Next month</span>
+          <ChevronRight className="!size-6" />
         </Button>
       </div>
-      <div className="grid grid-cols-7 gap-1 mb-2">
-        {weekDays.map((day) => (
-          <div key={day} className="h-8 text-sm font-medium text-muted-foreground flex items-center justify-center">
+
+      <div className="grid grid-cols-7 gap-1">
+        {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
+          <div key={day} className="text-center text-sm text-muted-foreground">
             {day}
           </div>
         ))}
-      </div>
-      <div className="grid grid-cols-7 gap-1">
         {days.map((day) => {
           const isSelected = day.hasSame(value, "day");
-          const isToday = day.hasSame(today, "day");
-          const isOutsideMonth = !day.hasSame(viewedMonth, "month");
+          const isDayToday = day.hasSame(today, "day");
+          const isCurrentMonth = day.hasSame(viewedMonth, "month");
 
           return (
             <Button
-              key={day.toISODate()}
-              variant={isSelected ? "default" : "ghost"}
-              size="icon"
-              className={cn(
-                "h-8 w-full rounded-md",
-                isOutsideMonth && "text-muted-foreground/50",
-                isToday && !isSelected && "border border-primary/50"
-              )}
+              key={day.toISO()}
+              variant={isSelected ? "default" : isDayToday ? "secondary" : "ghost"}
+              className={cn("h-9 w-9", !isCurrentMonth && "text-muted-foreground/50")}
               onClick={() => onChange(day)}
             >
-              <time dateTime={day.toISODate() ?? undefined}>{day.day}</time>
+              {day.toFormat("d")}
             </Button>
           );
         })}
