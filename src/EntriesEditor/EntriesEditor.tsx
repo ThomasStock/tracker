@@ -104,14 +104,6 @@ export const EntriesEditor = () => {
           </CardContent>
         </motion.div>
       </AnimatePresence>
-      {/* 
-      <Link to="/settings">
-        <Button variant="ghost" size="icon">
-          <Settings className="size-4" />
-          <span className="sr-only">Settings</span>
-        </Button>
-      </Link> */}
-
       <Footer>
         <div {...handlers}>
           <div className="flex items-center justify-between gap-4">
