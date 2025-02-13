@@ -34,17 +34,19 @@ export function Calendar({ value, onChange }: CalendarProps) {
 
   return (
     <div className="w-full p-3">
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-start justify-between mb-1">
         <Button variant="ghost" size="icon" onClick={() => setViewedMonth(viewedMonth.minus({ months: 1 }))}>
           <ChevronLeft className="h-4 w-4" />
           <span className="sr-only">Previous month</span>
         </Button>
-        <div className="flex flex-col items-center gap-1">
+        <div className="flex flex-col items-center mt-1.5">
           <div className="font-semibold">{viewedMonth.toLocaleString({ month: "long", year: "numeric" })}</div>
-          {(!viewedMonth.hasSame(today, "month") || !value.hasSame(today, "day")) && (
+          {!viewedMonth.hasSame(today, "month") || !value.hasSame(today, "day") ? (
             <Button variant="link" size="sm" onClick={handleTodayClick} className="h-6 text-xs p-0">
               Today
             </Button>
+          ) : (
+            <div className="h-6" />
           )}
         </div>
         <Button variant="ghost" size="icon" onClick={() => setViewedMonth(viewedMonth.plus({ months: 1 }))}>
@@ -59,7 +61,7 @@ export function Calendar({ value, onChange }: CalendarProps) {
           </div>
         ))}
       </div>
-      <div className="grid grid-cols-7 gap-1">
+      <div className="grid grid-cols-7 grid-rows-6 gap-1">
         {days.map((day) => {
           const isSelected = day.hasSame(value, "day");
           const isToday = day.hasSame(today, "day");

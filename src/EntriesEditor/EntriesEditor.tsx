@@ -110,7 +110,7 @@ export const EntriesEditor = () => {
                             </DropdownMenu>
                           </div>
                         </CardHeader>
-                        <CardContent>
+                        <CardContent className="pt-2">
                           <ItemComponent
                             templateItem={templateItem.type as never}
                             value={entry?.value as never}
