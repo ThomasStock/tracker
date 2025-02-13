@@ -67,8 +67,8 @@ export const EntriesEditor = () => {
   };
 
   return (
-    <div className="relative flex flex-col min-h-full">
-      <div className="flex-grow overflow-hidden" {...handlers}>
+    <div className="relative flex flex-col min-h-full overflow-x-hidden">
+      <div className="flex-grow overflow-y-auto overflow-x-hidden" {...handlers}>
         <AnimatePresence mode="popLayout" initial={false} custom={swipeDirection}>
           <motion.div
             key={selectedDate.toISODate()}

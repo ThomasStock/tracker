@@ -5,7 +5,7 @@ export function Footer({ children }: PropsWithChildren) {
   return (
     <div
       className={cn(
-        "z-30 fixed bottom-2 left-2 right-2 flex flex-col py-1 rounded-xl bg-input border border-secondary-foreground/10 shadow-xl"
+        "z-30 fixed inset-4 top-[unset] flex flex-col py-1 rounded-xl bg-input border border-secondary-foreground/10 shadow-xl"
       )}
     >
       <div>{children}</div>
