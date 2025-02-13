@@ -23,35 +23,34 @@ import {
 } from "@/components/ui/alert-dialog";
 import { StickyHeader } from "@/components/ui/sticky-header";
 
-export const Route = createFileRoute("/template-edit/$index")({
+export const Route = createFileRoute("/template-edit/$id")({
   component: TemplateEditPage,
   params: {
     parse: (params) => ({
-      index: +params.index,
+      id: +params.id,
     }),
     stringify: (params) => ({
-      index: params.index.toString(),
+      id: params.id.toString(),
     }),
   },
 });
 
 function TemplateEditPage() {
-  const { index } = Route.useParams();
+  const { id } = Route.useParams();
   const [template, setTemplate] = useAtom(templateAtom);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  const itemIndex = index;
-  const item = template[itemIndex];
+  const item = template.find((t) => t.id === id);
 
   if (!item) {
     return <div>Template item not found</div>;
   }
 
   const editItem = (updates: Partial<TemplateItem>) => {
-    setTemplate((prev) => prev.map((t, i) => (i === itemIndex ? { ...t, ...updates } : t)));
+    setTemplate((prev) => prev.map((t) => (t.id === id ? { ...t, ...updates } : t)));
   };
 
   const removeItem = () => {
-    setTemplate(template.filter((_, i) => i !== itemIndex));
+    setTemplate(template.filter((t) => t.id !== id));
     window.history.back();
   };
 

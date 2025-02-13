@@ -95,7 +95,7 @@ export default function TemplateEditor() {
               exit={["exit", "exitHeight"]}
               className="relative"
             >
-              <Link to="/template-edit/$index" params={{ index }} className="block">
+              <Link to="/template-edit/$id" params={{ id: item.id }} className="block">
                 <Card className={`overflow-hidden cursor-pointer hover:border-primary/50`}>
                   <CardHeader className="pb-2">
                     <div className="space-y-2">

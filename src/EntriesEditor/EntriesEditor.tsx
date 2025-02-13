@@ -10,12 +10,13 @@ import { useState } from "react";
 import { useSwipeable } from "react-swipeable";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ChevronLeft, ChevronRight, Settings } from "lucide-react";
+import { ChevronLeft, ChevronRight, Settings, MoreVertical } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { Footer } from "@/components/ui/footer";
 import { Link } from "@tanstack/react-router";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 export const EntriesEditor = () => {
   const [entries, setEntries] = useAtom(entriesAtom);
@@ -89,8 +90,24 @@ export const EntriesEditor = () => {
                     <div key={templateItem.id} className="relative">
                       <Card className="overflow-hidden cursor-pointer hover:border-primary/50">
                         <CardHeader className="pb-2">
-                          <div className="space-y-2">
+                          <div className="flex justify-between items-start">
                             <CardTitle className="text-base font-semibold break-words">{templateItem.title}</CardTitle>
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" size="icon" className="h-8 w-8">
+                                  <MoreVertical className="h-4 w-4" />
+                                  <span className="sr-only">Open menu</span>
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align="end">
+                                <DropdownMenuItem asChild>
+                                  <Link to="/template-edit/$id" params={{ id: templateItem.id }} className="flex items-center">
+                                    <Settings className="mr-2 h-4 w-4" />
+                                    <span>Edit Template</span>
+                                  </Link>
+                                </DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
                           </div>
                         </CardHeader>
                         <CardContent>
