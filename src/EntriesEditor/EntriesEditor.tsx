@@ -7,7 +7,6 @@ import { EnumEditor } from "./EnumEditor";
 import { TagsEditor } from "./TagsEditor";
 import { TimeEditor } from "./TimeEditor";
 import { useState } from "react";
-import { useSwipeable } from "react-swipeable";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChevronLeft, ChevronRight, Settings, MoreVertical } from "lucide-react";
@@ -47,11 +46,6 @@ export const EntriesEditor = () => {
     setSelectedDate(selectedDate.plus({ days: 1 }));
   };
 
-  const handlers = useSwipeable({
-    onSwipedLeft: goForward,
-    onSwipedRight: goBack,
-  });
-
   const variants = {
     enter: (direction: number) => ({
       x: direction > 0 ? "100%" : "-100%",
@@ -69,7 +63,7 @@ export const EntriesEditor = () => {
 
   return (
     <div className="relative flex flex-col min-h-full overflow-x-hidden">
-      <div className="flex-grow overflow-y-auto overflow-x-hidden" {...handlers}>
+      <div className="flex-grow overflow-y-auto overflow-x-hidden">
         <AnimatePresence mode="popLayout" initial={false} custom={swipeDirection}>
           <motion.div
             key={selectedDate.toISODate()}
@@ -134,9 +128,9 @@ export const EntriesEditor = () => {
           </Button>
           <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
             <PopoverTrigger asChild>
-              <Button variant="ghost" className="font-semibold text-xl h-auto py-0">
+              <Button variant="ghost" className="font-semibold text-lg h-auto py-0">
                 <div className="flex flex-col items-center">
-                  <div>{selectedDate.toLocaleString(DateTime.DATE_FULL)}</div>
+                  <div>{selectedDate.toFormat("MMMM dd")}</div>
                   <div className="text-sm font-normal text-muted-foreground">
                     {(() => {
                       const now = DateTime.now().startOf("day");
