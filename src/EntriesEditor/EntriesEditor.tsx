@@ -77,7 +77,7 @@ export const EntriesEditor = () => {
             className="h-full"
           >
             <div className="h-full pb-24">
-              <CardContent className="space-y-6 px-2">
+              <CardContent className="space-y-12 px-2">
                 {template.map((templateItem) => {
                   const entry = entryValues.find((entry) => entry.id === templateItem.id);
                   const ItemComponent = ItemComponentMap[templateItem.type.kind];
