@@ -83,29 +83,27 @@ export const EntriesEditor = () => {
                   const ItemComponent = ItemComponentMap[templateItem.type.kind];
                   return (
                     <div key={templateItem.id} className="relative">
+                      <div className="flex justify-between items-center mb-2 px-1">
+                        <h3 className="font-header text-lg font-extralight break-words">{templateItem.title}</h3>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon" className="h-8 w-8">
+                              <MoreVertical className="h-4 w-4" />
+                              <span className="sr-only">Open menu</span>
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem asChild>
+                              <Link to="/template-edit/$id" params={{ id: templateItem.id }} className="flex items-center">
+                                <Settings className="mr-2 h-4 w-4" />
+                                <span>Edit Template</span>
+                              </Link>
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
                       <Card className="overflow-hidden cursor-pointer hover:border-primary/50">
-                        <CardHeader className="pb-4 pt-4 px-4 ">
-                          <div className="flex justify-between items-start -mt-1">
-                            <CardTitle className=" break-words pt-1 font-header text-lg font-extralight">{templateItem.title}</CardTitle>
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="icon" className="h-8 w-8 -mr-2 -mt-1">
-                                  <MoreVertical className="h-4 w-4" />
-                                  <span className="sr-only">Open menu</span>
-                                </Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent align="end">
-                                <DropdownMenuItem asChild>
-                                  <Link to="/template-edit/$id" params={{ id: templateItem.id }} className="flex items-center">
-                                    <Settings className="mr-2 h-4 w-4" />
-                                    <span>Edit Template</span>
-                                  </Link>
-                                </DropdownMenuItem>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
-                          </div>
-                        </CardHeader>
-                        <CardContent className="pt-2">
+                        <CardContent className="p-4">
                           <ItemComponent
                             templateItem={templateItem.type as never}
                             value={entry?.value as never}
