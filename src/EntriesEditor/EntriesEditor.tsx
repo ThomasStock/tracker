@@ -84,9 +84,9 @@ export const EntriesEditor = () => {
                   return (
                     <div key={templateItem.id} className="relative">
                       <Card className="overflow-hidden cursor-pointer hover:border-primary/50">
-                        <CardHeader className="pb-4 pt-4 px-4">
+                        <CardHeader className="pb-4 pt-4 px-4 ">
                           <div className="flex justify-between items-start -mt-1">
-                            <CardTitle className="text-base font-semibold break-words pt-1">{templateItem.title}</CardTitle>
+                            <CardTitle className=" break-words pt-1 font-header text-lg font-extralight">{templateItem.title}</CardTitle>
                             <DropdownMenu>
                               <DropdownMenuTrigger asChild>
                                 <Button variant="ghost" size="icon" className="h-8 w-8 -mr-2 -mt-1">
