@@ -23,20 +23,23 @@ export const TagsEditor: React.FC<TagsEditorProps> = ({ templateItem, value, set
 
   return (
     <div className="">
-      {templateItem.values.map((tag) => (
-        <label
-          key={tag}
-          className="flex items-center space-x-6 rounded-lg p-4 cursor-pointer hover:bg-accent"
-          onClick={(e) => {
-            handleTagChange(tag);
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-        >
-          <Checkbox id={tag} checked={Array.isArray(value) && value.includes(tag)} className="w-6 h-6" />
-          <span className="flex-1 text-base cursor-pointer">{tag}</span>
-        </label>
-      ))}
+      {templateItem.values.map((tag) => {
+        const isSelected = Array.isArray(value) && value.includes(tag);
+        return (
+          <label
+            key={tag}
+            className={`flex items-center space-x-6 rounded-lg p-4 cursor-pointer hover:bg-accent ${isSelected ? "" : "opacity-70"}`}
+            onClick={(e) => {
+              handleTagChange(tag);
+              e.preventDefault();
+              e.stopPropagation();
+            }}
+          >
+            <Checkbox id={tag} checked={isSelected} className="w-6 h-6" />
+            <span className="flex-1 text-base cursor-pointer">{tag}</span>
+          </label>
+        );
+      })}
     </div>
   );
 };
