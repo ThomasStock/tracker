@@ -16,6 +16,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Footer } from "@/components/ui/footer";
 import { Link } from "@tanstack/react-router";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import version from "../version.txt?raw";
 
 export const EntriesEditor = () => {
   const [entries, setEntries] = useAtom(entriesAtom);
@@ -115,13 +116,14 @@ export const EntriesEditor = () => {
                     </div>
                   );
                 })}
+                <div className="text-xs text-muted-foreground text-center mt-8">{version}</div>
               </CardContent>
             </div>
           </motion.div>
         </AnimatePresence>
       </div>
       <Footer>
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center justify-between gap-4 w-full">
           <Button variant="ghost" size="icon" onClick={goBack}>
             <ChevronLeft className="!size-6" />
             <span className="sr-only">Previous day</span>
