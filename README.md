@@ -1,50 +1,18 @@
-# React + TypeScript + Vite
+## Why
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project exists as an attempt to (almost) completely create an app using Cursor and other AI tools.
 
-Currently, two official plugins are available:
+See it working at https://tracker.stackhouse.be
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Git Hooks
 
-## Expanding the ESLint configuration
+This project uses git hooks for automated version management. The hooks are stored in the `.hooks` directory and are automatically configured when you clone the repository.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+The pre-commit hook automatically updates the `src/version.txt` file with a version number based on the commit count and current timestamp.
 
-- Configure the top-level `parserOptions` property like this:
+If the hooks aren't working after cloning, run:
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```bash
+git config core.hooksPath .hooks
+chmod +x .hooks/pre-commit
 ```
