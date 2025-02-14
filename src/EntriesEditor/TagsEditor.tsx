@@ -22,11 +22,11 @@ export const TagsEditor: React.FC<TagsEditorProps> = ({ templateItem, value, set
   // console.log({ value });
 
   return (
-    <div className="space-y-3">
+    <div className="">
       {templateItem.values.map((tag) => (
         <label
           key={tag}
-          className="flex items-center space-x-3 rounded-lg border p-4 cursor-pointer border-primary/50 hover:bg-accent"
+          className="flex items-center space-x-6 rounded-lg p-4 cursor-pointer hover:bg-accent"
           onClick={(e) => {
             handleTagChange(tag);
             e.preventDefault();
