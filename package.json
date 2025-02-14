@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "update-version": "node updateVersion.js",
-    "build": "node updateVersion.js && tsc -b && vite build",
+    "update-version": "node updateVersion.cjs",
+    "build": "node updateVersion.cjs && tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
