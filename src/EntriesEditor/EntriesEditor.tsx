@@ -8,7 +8,7 @@ import { TagsEditor } from "./TagsEditor";
 import { TimeEditor } from "./TimeEditor";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { ChevronLeft, ChevronRight, Settings, MoreVertical } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
