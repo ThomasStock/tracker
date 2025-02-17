@@ -84,7 +84,7 @@ export const EntriesEditor = () => {
                   return (
                     <div key={templateItem.id} className="relative">
                       <div className="flex justify-between items-center mb-2 px-1">
-                        <h3 className="font-header text-lg font-extralight break-words">{templateItem.title}</h3>
+                        <h3 className="font-header text-lg font-semibold break-words">{templateItem.title}</h3>
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
                             <Button variant="ghost" size="icon" className="h-8 w-8">
@@ -130,8 +130,8 @@ export const EntriesEditor = () => {
             <PopoverTrigger asChild>
               <Button variant="ghost" className="font-semibold text-lg h-auto py-0">
                 <div className="flex flex-col items-center">
-                  <div>{selectedDate.toFormat("MMMM dd")}</div>
-                  <div className="text-sm font-normal text-muted-foreground">
+                  <div className="">{selectedDate.toFormat("MMMM dd")}</div>
+                  <div className="text-sm font-normal text-muted-foreground font-body">
                     {(() => {
                       const now = DateTime.now().startOf("day");
                       const date = selectedDate.startOf("day");
